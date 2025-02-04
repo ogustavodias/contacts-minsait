@@ -1,4 +1,4 @@
-package br.com.minsait.jp.contacts_app.service;
+package br.com.minsait.jp.contacts_app.services;
 
 import java.util.List;
 
@@ -7,8 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.minsait.jp.contacts_app.dto.UserUpdateDTO;
 import br.com.minsait.jp.contacts_app.models.User;
-import br.com.minsait.jp.contacts_app.repository.UserRepository;
+import br.com.minsait.jp.contacts_app.repositorys.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -29,26 +30,12 @@ public class UserService {
     return repository.save(user);
   }
 
-  public User updateUser(Long id, User user) {
+  public User updateUser(Long id, UserUpdateDTO user) {
     logger.info("Searching user with id {} to update...", id);
     User userToUpdate = repository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Usuário de id " + id + " não encontrado"));
+        .orElseThrow(() -> new EntityNotFoundException("Usuário de id " + id + " não encontrado."));
 
-    if (user.getName() != null) {
-      if (user.getName().trim().isEmpty())
-        throw new IllegalArgumentException("'name' não pode ser em branco");
-
-      userToUpdate.setName(user.getName().trim());
-    }
-
-    if (user.getNickname() != null) {
-      if (user.getNickname().trim().isEmpty())
-        throw new IllegalArgumentException("'nickname' não pode ser em branco");
-
-      userToUpdate.setNickname(user.getNickname().trim());
-    }
-
-    return repository.save(userToUpdate);
+    return repository.save(user.toPersistEntity(userToUpdate));
   }
 
   public User deleteUser(Long id) {

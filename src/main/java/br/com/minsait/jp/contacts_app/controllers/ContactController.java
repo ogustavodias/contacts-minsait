@@ -1,11 +1,11 @@
-package br.com.minsait.jp.contacts_app.controller;
+package br.com.minsait.jp.contacts_app.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.minsait.jp.contacts_app.common.ApiResponse;
 import br.com.minsait.jp.contacts_app.enums.ResponseType;
 import br.com.minsait.jp.contacts_app.models.Contact;
-import br.com.minsait.jp.contacts_app.service.ContactService;
+import br.com.minsait.jp.contacts_app.services.ContactService;
 import jakarta.validation.Valid;
 
 import java.util.List;

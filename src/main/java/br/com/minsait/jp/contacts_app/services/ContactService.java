@@ -1,4 +1,4 @@
-package br.com.minsait.jp.contacts_app.service;
+package br.com.minsait.jp.contacts_app.services;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.minsait.jp.contacts_app.enums.ContactType;
 import br.com.minsait.jp.contacts_app.models.Contact;
-import br.com.minsait.jp.contacts_app.repository.ContactRepository;
+import br.com.minsait.jp.contacts_app.repositorys.ContactRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service

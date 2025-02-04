@@ -1,11 +1,12 @@
-package br.com.minsait.jp.contacts_app.controller;
+package br.com.minsait.jp.contacts_app.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.minsait.jp.contacts_app.common.ApiResponse;
+import br.com.minsait.jp.contacts_app.dto.UserUpdateDTO;
 import br.com.minsait.jp.contacts_app.enums.ResponseType;
 import br.com.minsait.jp.contacts_app.models.User;
-import br.com.minsait.jp.contacts_app.service.UserService;
+import br.com.minsait.jp.contacts_app.services.UserService;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public class UserController {
 
   // PathMapping devido a possibilidade de atualização parcial da entidade
   @PatchMapping("{id}")
-  public ResponseEntity<ApiResponse<User>> updateUser(@PathVariable Long id, @RequestBody User user) {
+  public ResponseEntity<ApiResponse<User>> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO user) {
     ApiResponse<User> response = new ApiResponse<>();
 
     User updatedUser = service.updateUser(id, user);

@@ -1,4 +1,4 @@
-package br.com.minsait.jp.contacts_app.repository;
+package br.com.minsait.jp.contacts_app.repositorys;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
