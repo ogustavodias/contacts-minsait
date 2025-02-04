@@ -1,5 +1,7 @@
 package br.com.minsait.jp.contacts_app.errors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -14,8 +16,11 @@ import jakarta.persistence.EntityNotFoundException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+  private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ApiResponse<?>> handleAll(Exception e) {
+    logger.error("Unexpected error occurred: Exception." + e.getClass());
     ApiResponse<?> response = new ApiResponse<>();
     response.setMessage("Houve um erro inesperado.");
     response.setType(ResponseType.ERROR);
@@ -25,6 +30,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<ApiResponse<?>> handleIlegalArguments(IllegalArgumentException e) {
+    logger.error("Unexpected error occurred: IllegalArgumentException.");
     ApiResponse<?> response = new ApiResponse<>();
     response.setMessage("Houve um erro inesperado. " + e.getMessage());
     response.setType(ResponseType.ERROR);
@@ -34,6 +40,8 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ApiResponse<?>> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
+    logger.error("Unexpected error occurred: MethodArgumentNotValidException.");
+
     ApiResponse<?> response = new ApiResponse<>();
     StringBuilder errorMessage = new StringBuilder();
 
@@ -49,6 +57,8 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(EntityNotFoundException.class)
   public ResponseEntity<ApiResponse<?>> handleEntityNotFound(EntityNotFoundException e) {
+    logger.error("Unexpected error occurred: EntityNotFoundException.");
+
     ApiResponse<?> response = new ApiResponse<>();
     response.setMessage("Houve um erro inesperado. " + e.getMessage());
     response.setType(ResponseType.ERROR);

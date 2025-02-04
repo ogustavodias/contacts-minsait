@@ -2,6 +2,7 @@ package br.com.minsait.jp.contacts_app.models;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class User {
   private String name;
   private String nickname;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
   private List<Contact> contacts;
 
   public User() {
@@ -56,6 +57,11 @@ public class User {
 
   public void setNickname(String nickname) {
     this.nickname = nickname;
+  }
+
+  @Override
+  public String toString() {
+    return "{" + "Name: " + getName() + "| Nickname: " + getNickname() + "}";
   }
 
 }
