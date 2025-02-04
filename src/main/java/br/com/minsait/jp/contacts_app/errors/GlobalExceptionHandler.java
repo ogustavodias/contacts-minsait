@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ApiResponse<?>> handleAll(Exception e) {
-    logger.error("Unexpected error occurred: Exception." + e.getClass());
+    logger.error("Unexpected error occurred: Exception. " + e.getMessage());
     ApiResponse<?> response = new ApiResponse<>();
     response.setMessage("Houve um erro inesperado.");
     response.setType(ResponseType.ERROR);
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<ApiResponse<?>> handleIlegalArguments(IllegalArgumentException e) {
-    logger.error("Unexpected error occurred: IllegalArgumentException.");
+    logger.error("Unexpected error occurred: IllegalArgumentException. " + e.getMessage());
     ApiResponse<?> response = new ApiResponse<>();
     response.setMessage("Houve um erro inesperado. " + e.getMessage());
     response.setType(ResponseType.ERROR);
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ApiResponse<?>> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
-    logger.error("Unexpected error occurred: MethodArgumentNotValidException.");
+    logger.error("Unexpected error occurred: MethodArgumentNotValidException. " + e.getMessage());
 
     ApiResponse<?> response = new ApiResponse<>();
     StringBuilder errorMessage = new StringBuilder();
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(EntityNotFoundException.class)
   public ResponseEntity<ApiResponse<?>> handleEntityNotFound(EntityNotFoundException e) {
-    logger.error("Unexpected error occurred: EntityNotFoundException.");
+    logger.error("Unexpected error occurred: EntityNotFoundException. " + e.getMessage());
 
     ApiResponse<?> response = new ApiResponse<>();
     response.setMessage("Houve um erro inesperado. " + e.getMessage());

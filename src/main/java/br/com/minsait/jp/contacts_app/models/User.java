@@ -2,6 +2,8 @@ package br.com.minsait.jp.contacts_app.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,6 +28,7 @@ public class User {
   private String nickname;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+  @JsonManagedReference
   private List<Contact> contacts;
 
   public User() {
@@ -59,9 +62,17 @@ public class User {
     this.nickname = nickname;
   }
 
+  public List<Contact> getContacts() {
+    return contacts;
+  }
+
+  public void setContacts(List<Contact> contacts) {
+    this.contacts = contacts;
+  }
+
   @Override
   public String toString() {
-    return "{" + "Name: " + getName() + "| Nickname: " + getNickname() + "}";
+    return "{" + "Id: " + getId() + "| Name: " + getName() + "| Nickname: " + getNickname() + "}";
   }
 
 }

@@ -1,2 +1,2 @@
 INSERT INTO tb_users (name, nickname) VALUES ('Gustavo Alves Dias', 'Gugu'), ('Eduardo Henrique Marques Ferreira', 'Edu'), ('Ramon Alves', null);
-INSERT INTO tb_contacts (user_id, type, contact_value) VALUES (1, 'EMAIL', 'gustavo@example.com'), (2, 'TEL', '123456789'), (3, 'EMAIL', 'ramonzinho@hotmail.com'), (3, 'TEL', '987654321');
+INSERT INTO tb_contacts (user_id, type, contact_value) VALUES (1, 'EMAIL', 'gustavo@example.com'), (2, 'PHONE', '123456789'), (3, 'EMAIL', 'ramonzinho@hotmail.com'), (3, 'PHONE', '987654321');

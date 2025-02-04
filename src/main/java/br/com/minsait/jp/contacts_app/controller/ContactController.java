@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.minsait.jp.contacts_app.common.ApiResponse;
 import br.com.minsait.jp.contacts_app.enums.ResponseType;
-import br.com.minsait.jp.contacts_app.models.User;
-import br.com.minsait.jp.contacts_app.service.UserService;
+import br.com.minsait.jp.contacts_app.models.Contact;
+import br.com.minsait.jp.contacts_app.service.ContactService;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -24,60 +24,60 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
-@RequestMapping("/api/users")
-public class UserController {
+@RequestMapping("/api/contacts")
+public class ContactController {
 
-  private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+  private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
 
   @Autowired
-  private UserService service;
+  private ContactService service;
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<User>>> getAllUsers() {
-    ApiResponse<List<User>> response = new ApiResponse<>();
+  public ResponseEntity<ApiResponse<List<Contact>>> getAllContacts() {
+    ApiResponse<List<Contact>> response = new ApiResponse<>();
 
-    List<User> users = service.getAllUsers();
+    List<Contact> contacts = service.getAllContacts();
     response.setType(ResponseType.SUCCESS);
-    response.setBody(users);
+    response.setBody(contacts);
     response.setMessage("Lista obtida com sucesso.");
     logger.info("List obtained successfully");
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
   @PostMapping
-  public ResponseEntity<ApiResponse<User>> insertUser(@RequestBody @Valid User user) {
-    ApiResponse<User> response = new ApiResponse<>();
+  public ResponseEntity<ApiResponse<Contact>> insertContact(@RequestBody @Valid Contact contact) {
+    ApiResponse<Contact> response = new ApiResponse<>();
 
-    User insertedUser = service.insertUser(user);
+    Contact insertedContact = service.insertContact(contact);
     response.setType(ResponseType.SUCCESS);
-    response.setBody(insertedUser);
-    response.setMessage("Usuário inserido com sucesso.");
-    logger.info("User entered successfully");
+    response.setBody(insertedContact);
+    response.setMessage("Contato inserido com sucesso.");
+    logger.info("Contact entered successfully");
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
   // PathMapping devido a possibilidade de atualização parcial da entidade
   @PatchMapping("{id}")
-  public ResponseEntity<ApiResponse<User>> updateUser(@PathVariable Long id, @RequestBody User user) {
-    ApiResponse<User> response = new ApiResponse<>();
+  public ResponseEntity<ApiResponse<Contact>> updateContact(@PathVariable Long id, @RequestBody Contact contact) {
+    ApiResponse<Contact> response = new ApiResponse<>();
 
-    User updatedUser = service.updateUser(id, user);
+    Contact updatedContact = service.updateContact(id, contact);
     response.setType(ResponseType.SUCCESS);
-    response.setBody(updatedUser);
-    response.setMessage("Usuário atualizado com sucesso.");
-    logger.info("User updated successfully");
+    response.setBody(updatedContact);
+    response.setMessage("Contato atualizado com sucesso.");
+    logger.info("Contact updated successfully");
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<ApiResponse<User>> deleteUser(@PathVariable Long id) {
-    ApiResponse<User> response = new ApiResponse<>();
+  public ResponseEntity<ApiResponse<Contact>> deleteContact(@PathVariable Long id) {
+    ApiResponse<Contact> response = new ApiResponse<>();
 
-    User deletedUser = service.deleteUser(id);
+    Contact deletedContact = service.deleteContact(id);
     response.setType(ResponseType.SUCCESS);
-    response.setBody(deletedUser);
-    response.setMessage("Usuário deletado com sucesso.");
-    logger.info("User deleted successfully");
+    response.setBody(deletedContact);
+    response.setMessage("Contato deletado com sucesso.");
+    logger.info("Contact deleted successfully");
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 

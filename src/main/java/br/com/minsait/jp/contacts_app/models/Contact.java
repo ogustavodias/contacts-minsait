@@ -1,5 +1,7 @@
 package br.com.minsait.jp.contacts_app.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import br.com.minsait.jp.contacts_app.enums.ContactType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,13 +29,50 @@ public class Contact {
   @Enumerated(EnumType.STRING)
   private ContactType type;
 
-  @NotNull
   @NotBlank
-  @Column(unique = true)
+  @Column(nullable = false, unique = true)
   private String contactValue;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
+  @JsonBackReference
   private User user;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public ContactType getType() {
+    return type;
+  }
+
+  public void setType(ContactType type) {
+    this.type = type;
+  }
+
+  public String getContactValue() {
+    return contactValue;
+  }
+
+  public void setContactValue(String contactValue) {
+    this.contactValue = contactValue;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  @Override
+  public String toString() {
+    return "{" + "Type: " + getType() + "| Value: " + getContactValue() + "| User: " + getUser() + "}";
+  }
 
 }
