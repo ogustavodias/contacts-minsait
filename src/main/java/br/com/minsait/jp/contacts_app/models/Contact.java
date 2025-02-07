@@ -24,19 +24,30 @@ public class Contact {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotNull
+  @NotNull(message = "'contactType' não deve ser nulo")
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  private ContactType type;
+  private ContactType contactType;
 
-  @NotBlank
+  @NotBlank(message = "'contactValue' não deve ser nulo ou em branco")
   @Column(nullable = false, unique = true)
   private String contactValue;
 
+  @NotNull(message = "'user' deve ser informado juntamente com seu 'id'")
   @ManyToOne
   @JoinColumn(name = "user_id")
   @JsonBackReference
   private User user;
+
+  public Contact() {
+  }
+
+  public Contact(Long id, @NotNull ContactType contactType, @NotBlank String contactValue, @NotNull User user) {
+    this.id = id;
+    this.contactType = contactType;
+    this.contactValue = contactValue;
+    this.user = user;
+  }
 
   public Long getId() {
     return id;
@@ -46,12 +57,12 @@ public class Contact {
     this.id = id;
   }
 
-  public ContactType getType() {
-    return type;
+  public ContactType getContactType() {
+    return contactType;
   }
 
   public void setType(ContactType type) {
-    this.type = type;
+    this.contactType = type;
   }
 
   public String getContactValue() {
@@ -72,7 +83,7 @@ public class Contact {
 
   @Override
   public String toString() {
-    return "{" + "Type: " + getType() + "| Value: " + getContactValue() + "| User: " + getUser() + "}";
+    return "{" + "Type: " + getContactType() + "| Value: " + getContactValue() + "| User: " + getUser() + "}";
   }
 
 }

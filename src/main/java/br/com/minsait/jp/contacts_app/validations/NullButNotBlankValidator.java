@@ -4,8 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 /**
- * Valida um atributo que pode ser nulo mas não em branco, útil para serviços de
- * update parcial de entidades persistidas com DTO.
+ * Validator de NullButNotBlank.
  */
 public class NullButNotBlankValidator implements ConstraintValidator<NullButNotBlank, String> {
 

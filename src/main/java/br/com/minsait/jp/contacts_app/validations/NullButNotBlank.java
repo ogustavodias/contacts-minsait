@@ -8,6 +8,10 @@ import java.lang.annotation.Target;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
+/**
+ * Valida um atributo que pode ser nulo mas não em branco, útil para serviços de
+ * update parcial de entidades persistidas com DTO.
+ */
 @Constraint(validatedBy = NullButNotBlankValidator.class)
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)

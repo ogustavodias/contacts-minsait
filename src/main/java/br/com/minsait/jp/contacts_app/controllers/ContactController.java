@@ -3,6 +3,7 @@ package br.com.minsait.jp.contacts_app.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.minsait.jp.contacts_app.common.ApiResponse;
+import br.com.minsait.jp.contacts_app.dto.ContactUpdateDTO;
 import br.com.minsait.jp.contacts_app.enums.ResponseType;
 import br.com.minsait.jp.contacts_app.models.Contact;
 import br.com.minsait.jp.contacts_app.services.ContactService;
@@ -58,7 +59,7 @@ public class ContactController {
 
   // PathMapping devido a possibilidade de atualização parcial da entidade
   @PatchMapping("{id}")
-  public ResponseEntity<ApiResponse<Contact>> updateContact(@PathVariable Long id, @RequestBody Contact contact) {
+  public ResponseEntity<ApiResponse<Contact>> updateContact(@PathVariable Long id, @RequestBody @Valid ContactUpdateDTO contact) {
     ApiResponse<Contact> response = new ApiResponse<>();
 
     Contact updatedContact = service.updateContact(id, contact);
