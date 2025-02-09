@@ -15,8 +15,8 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "tb_users")
-public class User {
+@Table(name = "tb_persons")
+public class Person {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,14 +27,14 @@ public class User {
   private String name;
   private String nickname;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+  @OneToMany(mappedBy = "person", cascade = CascadeType.REMOVE, orphanRemoval = true)
   @JsonManagedReference
   private List<Contact> contacts;
 
-  public User() {
+  public Person() {
   }
 
-  public User(Long id, String name, String nickname) {
+  public Person(Long id, String name, String nickname) {
     this.id = id;
     this.name = name;
     this.nickname = nickname;

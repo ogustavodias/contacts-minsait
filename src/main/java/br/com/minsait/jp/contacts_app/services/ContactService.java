@@ -32,9 +32,7 @@ public class ContactService {
 
   public Contact insertContact(Contact contact) {
     logger.info("Saving contact {}...", contact);
-
     checkIfIsValidContact(contact);
-
     return repository.save(contact);
   }
 
@@ -58,27 +56,26 @@ public class ContactService {
   public Boolean checkIfIsValidContact(Contact contact) throws IllegalArgumentException {
     ContactType contactType = contact.getContactType();
     String contactValue = contact.getContactValue();
-    Boolean isValid = false;
 
     switch (contactType) {
+
       case EMAIL:
-        isValid = EMAIL_PATTERN.matcher(contactValue).matches();
-
-        if (!isValid)
+        if (!EMAIL_PATTERN.matcher(contactValue).matches()) {
           throw new IllegalArgumentException("'EMAIL' inválido");
-        else
-          return isValid;
-      case PHONE:
-        isValid = PHONE_PATTERN.matcher(contactValue).matches();
+        }
+        return true;
 
-        if (!isValid)
+      case PHONE:
+        if (!PHONE_PATTERN.matcher(contactValue).matches()) {
           throw new IllegalArgumentException("'PHONE' inválido");
-        else
-          return isValid;
+        }
+        return true;
+
       default:
-        if (!isValid)
-          throw new IllegalArgumentException("O campo 'contactType' deve ser preenchido com 'EMAIL' ou 'PHONE'");
-        return isValid;
+        throw new IllegalArgumentException("O campo 'contactType' deve ser preenchido com 'EMAIL' ou 'PHONE'");
+
     }
+
   }
+
 }

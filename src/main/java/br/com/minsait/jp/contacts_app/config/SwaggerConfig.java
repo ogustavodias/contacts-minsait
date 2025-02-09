@@ -15,7 +15,7 @@ public class SwaggerConfig {
         new Info()
             .title("Contacts API")
             .version("1.0")
-            .description("API para gerenciamento de contatos de usuários"));
+            .description("API para gerenciamento de contatos de pessoas"));
   }
 
 }

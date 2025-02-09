@@ -33,20 +33,20 @@ public class Contact {
   @Column(nullable = false, unique = true)
   private String contactValue;
 
-  @NotNull(message = "'user' deve ser informado juntamente com seu 'id'")
+  @NotNull(message = "'person' deve ser informado juntamente com seu 'id'")
   @ManyToOne
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "person_id")
   @JsonBackReference
-  private User user;
+  private Person person;
 
   public Contact() {
   }
 
-  public Contact(Long id, @NotNull ContactType contactType, @NotBlank String contactValue, @NotNull User user) {
+  public Contact(Long id, @NotNull ContactType contactType, @NotBlank String contactValue, @NotNull Person person) {
     this.id = id;
     this.contactType = contactType;
     this.contactValue = contactValue;
-    this.user = user;
+    this.person = person;
   }
 
   public Long getId() {
@@ -73,17 +73,17 @@ public class Contact {
     this.contactValue = contactValue;
   }
 
-  public User getUser() {
-    return user;
+  public Person getPerson() {
+    return person;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public void setPerson(Person person) {
+    this.person = person;
   }
 
   @Override
   public String toString() {
-    return "{" + "Type: " + getContactType() + "| Value: " + getContactValue() + "| User: " + getUser() + "}";
+    return "{" + "Type: " + getContactType() + "| Value: " + getContactValue() + "| Person: " + getPerson() + "}";
   }
 
 }

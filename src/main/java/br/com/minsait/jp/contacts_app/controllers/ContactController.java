@@ -7,6 +7,8 @@ import br.com.minsait.jp.contacts_app.dto.ContactUpdateDTO;
 import br.com.minsait.jp.contacts_app.enums.ResponseType;
 import br.com.minsait.jp.contacts_app.models.Contact;
 import br.com.minsait.jp.contacts_app.services.ContactService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("/api/contacts")
+@Tag(name = "Contatos", description = "API para gerenciar contatos")
 public class ContactController {
 
   private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
@@ -34,6 +37,7 @@ public class ContactController {
   private ContactService service;
 
   @GetMapping
+  @Operation(summary = "Listar CONTATOS", description = "Retorna uma lista com todos os CONTATOS cadastrados")
   public ResponseEntity<ApiResponse<List<Contact>>> getAllContacts() {
     ApiResponse<List<Contact>> response = new ApiResponse<>();
 
@@ -46,6 +50,7 @@ public class ContactController {
   }
 
   @PostMapping
+  @Operation(summary = "Inserir CONTATO", description = "Insere um novo CONTATO na base de dados")
   public ResponseEntity<ApiResponse<Contact>> insertContact(@RequestBody @Valid Contact contact) {
     ApiResponse<Contact> response = new ApiResponse<>();
 
@@ -59,7 +64,9 @@ public class ContactController {
 
   // PathMapping devido a possibilidade de atualização parcial da entidade
   @PatchMapping("{id}")
-  public ResponseEntity<ApiResponse<Contact>> updateContact(@PathVariable Long id, @RequestBody @Valid ContactUpdateDTO contact) {
+  @Operation(summary = "Atualizar CONTATO", description = "Atualiza informações de um CONTATO na base de dados")
+  public ResponseEntity<ApiResponse<Contact>> updateContact(@PathVariable Long id,
+      @RequestBody @Valid ContactUpdateDTO contact) {
     ApiResponse<Contact> response = new ApiResponse<>();
 
     Contact updatedContact = service.updateContact(id, contact);
@@ -71,6 +78,7 @@ public class ContactController {
   }
 
   @DeleteMapping("{id}")
+  @Operation(summary = "Deletar CONTATO", description = "Deleta um determinado CONTATO da base de dados")
   public ResponseEntity<ApiResponse<Contact>> deleteContact(@PathVariable Long id) {
     ApiResponse<Contact> response = new ApiResponse<>();
 

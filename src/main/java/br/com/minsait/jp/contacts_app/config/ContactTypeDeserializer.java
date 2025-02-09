@@ -12,7 +12,8 @@ import br.com.minsait.jp.contacts_app.enums.ContactType;
 
 /**
  * Desserializador personalizado de ContactType para evitar que o jackson lance
- * uma exceção e deixar essa responsabilidade com o IsContact.
+ * uma exceção e deixar essa responsabilidade as validações personalizadas
+ * criadas para este tipo.
  */
 public class ContactTypeDeserializer extends JsonDeserializer<ContactType> {
 

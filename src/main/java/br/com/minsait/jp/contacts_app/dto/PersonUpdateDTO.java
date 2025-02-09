@@ -1,15 +1,15 @@
 package br.com.minsait.jp.contacts_app.dto;
 
 import br.com.minsait.jp.contacts_app.interfaces.DTO;
-import br.com.minsait.jp.contacts_app.models.User;
+import br.com.minsait.jp.contacts_app.models.Person;
 import br.com.minsait.jp.contacts_app.validations.AtLeastOneField;
 import br.com.minsait.jp.contacts_app.validations.NullButNotBlank;
 
 /**
  * Classe DTO que permite update parcial e total da entidade no banco de dados.
  */
-@AtLeastOneField(fields = {"name", "nickname"})
-public class UserUpdateDTO implements DTO<User> {
+@AtLeastOneField(fields = { "name", "nickname" })
+public class PersonUpdateDTO implements DTO<Person> {
 
   @NullButNotBlank(fieldName = "name")
   private String name;
@@ -18,12 +18,12 @@ public class UserUpdateDTO implements DTO<User> {
   private String nickname;
 
   @Override
-  public User toPersistEntity(User user) {
+  public Person toPersistEntity(Person person) {
     if (this.name != null)
-      user.setName(this.name);
+      person.setName(this.name);
     if (this.nickname != null)
-      user.setNickname(this.nickname);
-    return user;
+      person.setNickname(this.nickname);
+    return person;
   }
 
   public void setName(String name) {
