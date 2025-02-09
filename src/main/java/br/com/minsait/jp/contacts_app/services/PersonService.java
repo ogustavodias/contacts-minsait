@@ -25,6 +25,12 @@ public class PersonService {
     return repository.findAll();
   }
 
+  public Person getPersonById(Long id) {
+    logger.info("Searching person with id {}", id);
+    return repository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Pessoa de id " + id + " não encontrada."));
+  }
+
   public Person insertPerson(Person person) {
     logger.info("Entering person {}...", person);
     return repository.save(person);

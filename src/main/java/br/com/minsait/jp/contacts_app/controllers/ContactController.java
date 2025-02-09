@@ -49,6 +49,19 @@ public class ContactController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
+  @GetMapping("{id}")
+  @Operation(summary = "Buscar CONTATO", description = "Busca e retorna um determinado CONTATO cadastrado no banco de dados")
+  public ResponseEntity<ApiResponse<Contact>> getContactById(@PathVariable Long id) {
+    ApiResponse<Contact> response = new ApiResponse<>();
+
+    Contact contact = service.getContactById(id);
+    response.setType(ResponseType.SUCCESS);
+    response.setBody(contact);
+    response.setMessage("Contato obtido com sucesso.");
+    logger.info("Contact obtained successfully");
+    return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+
   @PostMapping
   @Operation(summary = "Inserir CONTATO", description = "Insere um novo CONTATO na base de dados")
   public ResponseEntity<ApiResponse<Contact>> insertContact(@RequestBody @Valid Contact contact) {

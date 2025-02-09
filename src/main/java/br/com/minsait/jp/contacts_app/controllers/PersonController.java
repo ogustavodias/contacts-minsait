@@ -49,6 +49,19 @@ public class PersonController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
+  @GetMapping("{id}")
+  @Operation(summary = "Buscar PESSOA", description = "Busca e retorna uma determinada PESSOA cadastrada no banco de dados")
+  public ResponseEntity<ApiResponse<Person>> getPersonById(@PathVariable Long id) {
+    ApiResponse<Person> response = new ApiResponse<>();
+
+    Person person = service.getPersonById(id);
+    response.setType(ResponseType.SUCCESS);
+    response.setBody(person);
+    response.setMessage("Pessoa obtida com sucesso.");
+    logger.info("Person obtained successfully");
+    return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+
   @PostMapping
   @Operation(summary = "Inserir PESSOA", description = "Insere uma nova PESSOA na base de dados")
   public ResponseEntity<ApiResponse<Person>> insertPerson(@RequestBody @Valid Person person) {

@@ -30,6 +30,12 @@ public class ContactService {
     return repository.findAll();
   }
 
+  public Contact getContactById(Long id) {
+    logger.info("Searching contact with id {}", id);
+    return repository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Contato de id " + id + " não encontrado"));
+  }
+
   public Contact insertContact(Contact contact) {
     logger.info("Saving contact {}...", contact);
     checkIfIsValidContact(contact);
