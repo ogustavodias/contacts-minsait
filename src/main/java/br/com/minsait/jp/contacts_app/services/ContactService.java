@@ -25,9 +25,9 @@ public class ContactService {
   @Autowired
   private ContactRepository repository;
 
-  public List<Contact> getAllContacts() {
-    logger.info("Searching all contacts...");
-    return repository.findAll();
+  public List<Contact> getAllContactsByPersonId(Long personId) {
+    logger.info("Searching all contacts of person with id {} ...", personId);
+    return repository.findAllByPersonId(personId);
   }
 
   public Contact getContactById(Long id) {

@@ -36,12 +36,12 @@ public class ContactController {
   @Autowired
   private ContactService service;
 
-  @GetMapping
-  @Operation(summary = "Listar CONTATOS", description = "Retorna uma lista com todos os CONTATOS cadastrados")
-  public ResponseEntity<ApiResponse<List<Contact>>> getAllContacts() {
+  @GetMapping("person/{personId}")
+  @Operation(summary = "Listar CONTATOS da pessoa", description = "Retorna uma lista com todos os CONTATOS cadastrados de uma determinada pessoa")
+  public ResponseEntity<ApiResponse<List<Contact>>> getAllContactsByPersonId(@PathVariable Long personId) {
     ApiResponse<List<Contact>> response = new ApiResponse<>();
 
-    List<Contact> contacts = service.getAllContacts();
+    List<Contact> contacts = service.getAllContactsByPersonId(personId);
     response.setType(ResponseType.SUCCESS);
     response.setBody(contacts);
     response.setMessage("Lista obtida com sucesso.");

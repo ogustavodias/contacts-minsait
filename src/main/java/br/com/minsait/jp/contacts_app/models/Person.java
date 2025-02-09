@@ -25,7 +25,11 @@ public class Person {
   @NotBlank(message = "'name' não pode ser nulo ou em branco")
   @Column(nullable = false)
   private String name;
-  private String nickname;
+
+  private String street;
+  private String postalCode;
+  private String city;
+  private String state;
 
   @OneToMany(mappedBy = "person", cascade = CascadeType.REMOVE, orphanRemoval = true)
   @JsonManagedReference
@@ -34,10 +38,13 @@ public class Person {
   public Person() {
   }
 
-  public Person(Long id, String name, String nickname) {
+  public Person(Long id, String name, String street, String postalCode, String city, String state) {
     this.id = id;
     this.name = name;
-    this.nickname = nickname;
+    this.street = street;
+    this.postalCode = postalCode;
+    this.city = city;
+    this.state = state;
   }
 
   public Long getId() {
@@ -56,12 +63,36 @@ public class Person {
     this.name = name;
   }
 
-  public String getNickname() {
-    return nickname;
+  public String getStreet() {
+    return street;
   }
 
-  public void setNickname(String nickname) {
-    this.nickname = nickname;
+  public void setStreet(String street) {
+    this.street = street;
+  }
+
+  public String getPostalCode() {
+    return postalCode;
+  }
+
+  public void setPostalCode(String postalCode) {
+    this.postalCode = postalCode;
+  }
+
+  public String getCity() {
+    return city;
+  }
+
+  public void setCity(String city) {
+    this.city = city;
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public void setState(String state) {
+    this.state = state;
   }
 
   public List<Contact> getContacts() {
@@ -74,7 +105,9 @@ public class Person {
 
   @Override
   public String toString() {
-    return "{" + "Id: " + getId() + "| Name: " + getName() + "| Nickname: " + getNickname() + "}";
+    return String.format(
+        "{ ID: %d | NAME: %s | POSTAL CODE: %s | CITY: %s | STATE: %s }",
+        this.id, this.name, this.postalCode, this.city, this.state);
   }
 
 }
