@@ -36,8 +36,8 @@ public class ContactController {
   @Autowired
   private ContactService service;
 
-  @GetMapping("person/{personId}")
   @Operation(summary = "Listar CONTATOS da pessoa", description = "Retorna uma lista com todos os CONTATOS cadastrados de uma determinada pessoa")
+  @GetMapping("person/{personId}")
   public ResponseEntity<ApiResponse<List<Contact>>> getAllContactsByPersonId(@PathVariable Long personId) {
     ApiResponse<List<Contact>> response = new ApiResponse<>();
 
@@ -49,8 +49,8 @@ public class ContactController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
-  @GetMapping("{id}")
   @Operation(summary = "Buscar CONTATO", description = "Busca e retorna um determinado CONTATO cadastrado no banco de dados")
+  @GetMapping("{id}")
   public ResponseEntity<ApiResponse<Contact>> getContactById(@PathVariable Long id) {
     ApiResponse<Contact> response = new ApiResponse<>();
 
@@ -62,8 +62,8 @@ public class ContactController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
-  @PostMapping
   @Operation(summary = "Inserir CONTATO", description = "Insere um novo CONTATO na base de dados")
+  @PostMapping
   public ResponseEntity<ApiResponse<Contact>> insertContact(@RequestBody @Valid Contact contact) {
     ApiResponse<Contact> response = new ApiResponse<>();
 
@@ -75,9 +75,8 @@ public class ContactController {
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
-  // PathMapping devido a possibilidade de atualização parcial da entidade
-  @PatchMapping("{id}")
   @Operation(summary = "Atualizar CONTATO", description = "Atualiza informações de um CONTATO na base de dados")
+  @PatchMapping("{id}") // PathMapping devido a possibilidade de atualização parcial da entidade
   public ResponseEntity<ApiResponse<Contact>> updateContact(@PathVariable Long id,
       @RequestBody @Valid ContactUpdateDTO contact) {
     ApiResponse<Contact> response = new ApiResponse<>();
@@ -90,8 +89,8 @@ public class ContactController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
-  @DeleteMapping("{id}")
   @Operation(summary = "Deletar CONTATO", description = "Deleta um determinado CONTATO da base de dados")
+  @DeleteMapping("{id}")
   public ResponseEntity<ApiResponse<Contact>> deleteContact(@PathVariable Long id) {
     ApiResponse<Contact> response = new ApiResponse<>();
 

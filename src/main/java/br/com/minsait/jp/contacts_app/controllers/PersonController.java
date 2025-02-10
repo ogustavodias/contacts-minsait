@@ -3,6 +3,7 @@ package br.com.minsait.jp.contacts_app.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.minsait.jp.contacts_app.common.ApiResponse;
+import br.com.minsait.jp.contacts_app.dto.DirectMailDTO;
 import br.com.minsait.jp.contacts_app.dto.PersonUpdateDTO;
 import br.com.minsait.jp.contacts_app.enums.ResponseType;
 import br.com.minsait.jp.contacts_app.models.Person;
@@ -36,34 +37,8 @@ public class PersonController {
   @Autowired
   private PersonService service;
 
-  @GetMapping
-  @Operation(summary = "Listar PESSOAS", description = "Retorna uma lista com todas as PESSOAS cadastradas")
-  public ResponseEntity<ApiResponse<List<Person>>> getAllPersons() {
-    ApiResponse<List<Person>> response = new ApiResponse<>();
-
-    List<Person> persons = service.getAllPersons();
-    response.setType(ResponseType.SUCCESS);
-    response.setBody(persons);
-    response.setMessage("Lista obtida com sucesso.");
-    logger.info("List obtained successfully");
-    return ResponseEntity.status(HttpStatus.OK).body(response);
-  }
-
-  @GetMapping("{id}")
-  @Operation(summary = "Buscar PESSOA", description = "Busca e retorna uma determinada PESSOA cadastrada no banco de dados")
-  public ResponseEntity<ApiResponse<Person>> getPersonById(@PathVariable Long id) {
-    ApiResponse<Person> response = new ApiResponse<>();
-
-    Person person = service.getPersonById(id);
-    response.setType(ResponseType.SUCCESS);
-    response.setBody(person);
-    response.setMessage("Pessoa obtida com sucesso.");
-    logger.info("Person obtained successfully");
-    return ResponseEntity.status(HttpStatus.OK).body(response);
-  }
-
-  @PostMapping
   @Operation(summary = "Inserir PESSOA", description = "Insere uma nova PESSOA na base de dados")
+  @PostMapping
   public ResponseEntity<ApiResponse<Person>> insertPerson(@RequestBody @Valid Person person) {
     ApiResponse<Person> response = new ApiResponse<>();
 
@@ -75,14 +50,52 @@ public class PersonController {
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
-  // PathMapping devido a possibilidade de atualização parcial da entidade
-  @PatchMapping("{id}")
+  @Operation(summary = "Buscar PESSOA", description = "Busca e retorna uma determinada PESSOA cadastrada no banco de dados")
+  @GetMapping("{id}")
+  public ResponseEntity<ApiResponse<Person>> getPersonById(@PathVariable Long id) {
+    ApiResponse<Person> response = new ApiResponse<>();
+
+    Person person = service.getPersonById(id);
+    response.setType(ResponseType.SUCCESS);
+    response.setBody(person);
+    response.setMessage("Pessoa obtida com sucesso.");
+    logger.info("Person obtained successfully");
+    return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+
+  @Operation(summary = "Buscar PESSOA para mala direta", description = "Busca e retorna uma MALA DIRETA para uma determinada PESSOA cadastrada no banco de dados")
+  @GetMapping("directmail/{id}")
+  public ResponseEntity<ApiResponse<DirectMailDTO>> getPersonDirectMailById(@PathVariable Long id) {
+    ApiResponse<DirectMailDTO> response = new ApiResponse<>();
+
+    DirectMailDTO directMail = service.getPersonDirectMailById(id);
+    response.setType(ResponseType.SUCCESS);
+    response.setBody(directMail);
+    response.setMessage("Mala direta obtida com sucesso.");
+    logger.info("Direct Mail obtained successfully");
+    return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+
+  @Operation(summary = "Listar PESSOAS", description = "Retorna uma lista com todas as PESSOAS cadastradas")
+  @GetMapping
+  public ResponseEntity<ApiResponse<List<Person>>> getAllPersons() {
+    ApiResponse<List<Person>> response = new ApiResponse<>();
+
+    List<Person> persons = service.getAllPersons();
+    response.setType(ResponseType.SUCCESS);
+    response.setBody(persons);
+    response.setMessage("Lista obtida com sucesso.");
+    logger.info("List obtained successfully");
+    return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+
   @Operation(summary = "Atualizar PESSOA", description = "Atualizar informações de uma PESSOA na base de dados")
-  public ResponseEntity<ApiResponse<Person>> updatePerson(@PathVariable Long id,
+  @PatchMapping("{id}") // PathMapping devido a possibilidade de atualização parcial da entidade
+  public ResponseEntity<ApiResponse<Person>> updatePersonById(@PathVariable Long id,
       @RequestBody @Valid PersonUpdateDTO person) {
     ApiResponse<Person> response = new ApiResponse<>();
 
-    Person updatedPerson = service.updatePerson(id, person);
+    Person updatedPerson = service.updatePersonById(id, person);
     response.setType(ResponseType.SUCCESS);
     response.setBody(updatedPerson);
     response.setMessage("PESSOA atualizada com sucesso.");
@@ -90,12 +103,12 @@ public class PersonController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
-  @DeleteMapping("{id}")
   @Operation(summary = "Deletar PESSOA", description = "Deleta uma determinada PESSOA da base de dados")
-  public ResponseEntity<ApiResponse<Person>> deletePerson(@PathVariable Long id) {
+  @DeleteMapping("{id}")
+  public ResponseEntity<ApiResponse<Person>> deletePersonById(@PathVariable Long id) {
     ApiResponse<Person> response = new ApiResponse<>();
 
-    Person deletedPerson = service.deletePerson(id);
+    Person deletedPerson = service.deletePersonById(id);
     response.setType(ResponseType.SUCCESS);
     response.setBody(deletedPerson);
     response.setMessage("PESSOA deletada com sucesso.");

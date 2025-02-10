@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.minsait.jp.contacts_app.dto.DirectMailDTO;
 import br.com.minsait.jp.contacts_app.dto.PersonUpdateDTO;
 import br.com.minsait.jp.contacts_app.models.Person;
 import br.com.minsait.jp.contacts_app.repositorys.PersonRepository;
@@ -20,9 +21,9 @@ public class PersonService {
   @Autowired
   private PersonRepository repository;
 
-  public List<Person> getAllPersons() {
-    logger.info("Searching all persons...");
-    return repository.findAll();
+  public Person insertPerson(Person person) {
+    logger.info("Entering person {}...", person);
+    return repository.save(person);
   }
 
   public Person getPersonById(Long id) {
@@ -31,12 +32,18 @@ public class PersonService {
         .orElseThrow(() -> new EntityNotFoundException("Pessoa de id " + id + " não encontrada."));
   }
 
-  public Person insertPerson(Person person) {
-    logger.info("Entering person {}...", person);
-    return repository.save(person);
+  public DirectMailDTO getPersonDirectMailById(Long id) {
+    Person person = getPersonById(id);
+    logger.info("Getting direct mail for person with id {}", id);
+    return new DirectMailDTO(person);
   }
 
-  public Person updatePerson(Long id, PersonUpdateDTO person) {
+  public List<Person> getAllPersons() {
+    logger.info("Searching all persons...");
+    return repository.findAll();
+  }
+
+  public Person updatePersonById(Long id, PersonUpdateDTO person) {
     logger.info("Searching person with id {} to update...", id);
     Person personToUpdate = repository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Pessoa de id " + id + " não encontrada."));
@@ -44,7 +51,7 @@ public class PersonService {
     return repository.save(person.toPersistEntity(personToUpdate));
   }
 
-  public Person deletePerson(Long id) {
+  public Person deletePersonById(Long id) {
     logger.info("Searching person with id {} to delete...", id);
     Person personToDelete = repository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada"));
