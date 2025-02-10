@@ -12,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_persons")
@@ -22,7 +21,6 @@ public class Person {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotBlank(message = "'name' não pode ser nulo ou em branco")
   @Column(nullable = false)
   private String name;
 
@@ -45,6 +43,15 @@ public class Person {
     this.postalCode = postalCode;
     this.city = city;
     this.state = state;
+  }
+
+  public Person(Builder builder) {
+    this.id = builder.id;
+    this.name = builder.name;
+    this.street = builder.street;
+    this.postalCode = builder.postalCode;
+    this.city = builder.city;
+    this.state = builder.state;
   }
 
   public Long getId() {
@@ -108,6 +115,51 @@ public class Person {
     return String.format(
         "{ ID: %d | NAME: %s | POSTAL CODE: %s | CITY: %s | STATE: %s }",
         this.id, this.name, this.postalCode, this.city, this.state);
+  }
+
+  // Builder
+  public static class Builder {
+    private Long id;
+    private String name;
+    private String street;
+    private String postalCode;
+    private String city;
+    private String state;
+
+    public Builder setId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public Builder setStreet(String street) {
+      this.street = street;
+      return this;
+    }
+
+    public Builder setPostalCode(String postalCode) {
+      this.postalCode = postalCode;
+      return this;
+    }
+
+    public Builder setCity(String city) {
+      this.city = city;
+      return this;
+    }
+
+    public Builder setState(String state) {
+      this.state = state;
+      return this;
+    }
+
+    public Person build() {
+      return new Person(this);
+    }
+
   }
 
 }

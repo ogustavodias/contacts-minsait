@@ -7,7 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.minsait.jp.contacts_app.dto.DirectMailDTO;
+import br.com.minsait.jp.contacts_app.dto.PersonDirectMailDTO;
+import br.com.minsait.jp.contacts_app.dto.PersonInsertDTO;
 import br.com.minsait.jp.contacts_app.dto.PersonUpdateDTO;
 import br.com.minsait.jp.contacts_app.models.Person;
 import br.com.minsait.jp.contacts_app.repositorys.PersonRepository;
@@ -21,8 +22,15 @@ public class PersonService {
   @Autowired
   private PersonRepository repository;
 
-  public Person insertPerson(Person person) {
-    logger.info("Entering person {}...", person);
+  public Person insertPerson(PersonInsertDTO personInsertDTO) {
+    logger.info("Entering person {}...", personInsertDTO);
+    Person person = new Person.Builder()
+        .setName(personInsertDTO.name())
+        .setStreet(personInsertDTO.street())
+        .setPostalCode(personInsertDTO.postalCode())
+        .setCity(personInsertDTO.city())
+        .setState(personInsertDTO.state())
+        .build();
     return repository.save(person);
   }
 
@@ -32,10 +40,10 @@ public class PersonService {
         .orElseThrow(() -> new EntityNotFoundException("Pessoa de id " + id + " não encontrada."));
   }
 
-  public DirectMailDTO getPersonDirectMailById(Long id) {
+  public PersonDirectMailDTO getPersonDirectMailById(Long id) {
     Person person = getPersonById(id);
     logger.info("Getting direct mail for person with id {}", id);
-    return new DirectMailDTO(person);
+    return new PersonDirectMailDTO(person);
   }
 
   public List<Person> getAllPersons() {

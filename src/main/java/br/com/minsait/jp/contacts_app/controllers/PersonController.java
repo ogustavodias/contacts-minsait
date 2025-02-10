@@ -3,7 +3,8 @@ package br.com.minsait.jp.contacts_app.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.minsait.jp.contacts_app.common.ApiResponse;
-import br.com.minsait.jp.contacts_app.dto.DirectMailDTO;
+import br.com.minsait.jp.contacts_app.dto.PersonDirectMailDTO;
+import br.com.minsait.jp.contacts_app.dto.PersonInsertDTO;
 import br.com.minsait.jp.contacts_app.dto.PersonUpdateDTO;
 import br.com.minsait.jp.contacts_app.enums.ResponseType;
 import br.com.minsait.jp.contacts_app.models.Person;
@@ -39,7 +40,7 @@ public class PersonController {
 
   @Operation(summary = "Inserir PESSOA", description = "Insere uma nova PESSOA na base de dados")
   @PostMapping
-  public ResponseEntity<ApiResponse<Person>> insertPerson(@RequestBody @Valid Person person) {
+  public ResponseEntity<ApiResponse<Person>> insertPerson(@RequestBody @Valid PersonInsertDTO person) {
     ApiResponse<Person> response = new ApiResponse<>();
 
     Person insertedPerson = service.insertPerson(person);
@@ -65,10 +66,10 @@ public class PersonController {
 
   @Operation(summary = "Buscar PESSOA para mala direta", description = "Busca e retorna uma MALA DIRETA para uma determinada PESSOA cadastrada no banco de dados")
   @GetMapping("directmail/{id}")
-  public ResponseEntity<ApiResponse<DirectMailDTO>> getPersonDirectMailById(@PathVariable Long id) {
-    ApiResponse<DirectMailDTO> response = new ApiResponse<>();
+  public ResponseEntity<ApiResponse<PersonDirectMailDTO>> getPersonDirectMailById(@PathVariable Long id) {
+    ApiResponse<PersonDirectMailDTO> response = new ApiResponse<>();
 
-    DirectMailDTO directMail = service.getPersonDirectMailById(id);
+    PersonDirectMailDTO directMail = service.getPersonDirectMailById(id);
     response.setType(ResponseType.SUCCESS);
     response.setBody(directMail);
     response.setMessage("Mala direta obtida com sucesso.");

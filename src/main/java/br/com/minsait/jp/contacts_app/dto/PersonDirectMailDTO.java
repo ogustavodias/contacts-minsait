@@ -2,8 +2,8 @@ package br.com.minsait.jp.contacts_app.dto;
 
 import br.com.minsait.jp.contacts_app.models.Person;
 
-public record DirectMailDTO(Long id, String name, String directMail) {
-  public DirectMailDTO(Person person) {
+public record PersonDirectMailDTO(Long id, String name, String directMail) {
+  public PersonDirectMailDTO(Person person) {
     this(person.getId(), person.getName(), formatDirectMail(person));
   }
 
