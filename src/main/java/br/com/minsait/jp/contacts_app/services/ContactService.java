@@ -1,8 +1,8 @@
 package br.com.minsait.jp.contacts_app.services;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
+import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import br.com.minsait.jp.contacts_app.enums.ContactType;
 import br.com.minsait.jp.contacts_app.models.Contact;
 import br.com.minsait.jp.contacts_app.models.Person;
 import br.com.minsait.jp.contacts_app.repositorys.ContactRepository;
+import br.com.minsait.jp.contacts_app.utils.ObjectUtils;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -27,9 +28,15 @@ public class ContactService {
   @Autowired
   private PersonService personService;
 
-  public List<Contact> getAllContactsByPersonId(Long personId) {
-    logger.info("Searching all contacts of person with id {} ...", personId);
-    return repository.findAllByPersonId(personId);
+  public Contact insertContact(ContactInsertDTO contactInsertDTO) {
+    Person person = personService.getPersonById(contactInsertDTO.personId());
+    Contact contact = new Contact.Builder()
+        .setContactType(contactInsertDTO.contactType())
+        .setContactValue(contactInsertDTO.contactValue())
+        .setPerson(person)
+        .build();
+    logger.info("Saving contact {}...", contact);
+    return repository.save(isValidContact(contact));
   }
 
   public Contact getContactById(Long id) {
@@ -38,27 +45,33 @@ public class ContactService {
         .orElseThrow(() -> new EntityNotFoundException("Contato de id " + id + " não encontrado"));
   }
 
-  public Contact insertContact(ContactInsertDTO contactInsertDTO) {
-    Person person = personService.getPersonById(contactInsertDTO.personId());
-    Contact contact = new Contact.Builder()
-        .setContactType(contactInsertDTO.contactType())
-        .setContactValue(contactInsertDTO.contactValue())
-        .setPerson(person)
-        .build();
-    checkIfIsValidContact(contact);
-    logger.info("Saving contact {}...", contact);
-    return repository.save(contact);
+  public List<Contact> getAllContactsByPersonId(Long personId) {
+    logger.info("Searching all contacts of person with id {} ...", personId);
+    return repository.findAllByPersonId(personId);
   }
 
-  public Contact updateContact(Long id, ContactUpdateDTO contact) {
+  public Contact updateContactById(Long id, ContactUpdateDTO contactUpdateDTO) throws BadRequestException {
     logger.info("Searching contact with id {} to update...", id);
-    Contact contactToUpdate = repository.findById(id)
+    Contact contact = repository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Contato de id " + id + " não encontrado"));
 
-    return repository.save(contact.toPersistEntity(contactToUpdate));
+    if (!ObjectUtils.hasNonNullField(contact))
+      throw new BadRequestException("Nenhum campo enviado para update");
+    else {
+      if (contactUpdateDTO.contactType() != null)
+        contact.setContactType(contactUpdateDTO.contactType());
+      if (contactUpdateDTO.contactValue() != null)
+        contact.setContactValue(contactUpdateDTO.contactValue());
+      if (contactUpdateDTO.personId() != null) {
+        Person person = personService.getPersonById(contactUpdateDTO.personId());
+        contact.setPerson(person);
+      }
+    }
+
+    return repository.save(isValidContact(contact));
   }
 
-  public Contact deleteContact(Long id) {
+  public Contact deleteContactById(Long id) {
     logger.info("Searching contact with id {} to delete...", id);
     Contact contactToDelete = repository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Contato não encontrado"));
@@ -67,11 +80,7 @@ public class ContactService {
     return contactToDelete;
   }
 
-  public Boolean checkIfIsValidContact(Contact contact) throws IllegalArgumentException {
-    Pattern EMAIL_PATTERN = Pattern
-        .compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
-    Pattern PHONE_PATTERN = Pattern
-        .compile("^\\+?\\d{0,2}\\s?\\(?\\d{2,3}\\)?\\s?\\d{4,5}-?\\d{4}$");
+  public Contact isValidContact(Contact contact) throws IllegalArgumentException {
 
     ContactType contactType = contact.getContactType();
     String contactValue = contact.getContactValue();
@@ -79,22 +88,22 @@ public class ContactService {
     switch (contactType) {
 
       case EMAIL:
-        if (!EMAIL_PATTERN.matcher(contactValue).matches()) {
+        if (!ContactType.EMAIL.matches(contactValue)) {
           throw new IllegalArgumentException("'EMAIL' inválido");
         }
-        return true;
+        break;
 
       case PHONE:
-        if (!PHONE_PATTERN.matcher(contactValue).matches()) {
+        if (!ContactType.PHONE.matches(contactValue)) {
           throw new IllegalArgumentException("'PHONE' inválido");
         }
-        return true;
+        break;
 
       default:
         throw new IllegalArgumentException("O campo 'contactType' deve ser preenchido com 'EMAIL' ou 'PHONE'");
-
     }
 
+    return contact;
   }
 
 }

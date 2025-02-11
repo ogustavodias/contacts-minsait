@@ -65,8 +65,8 @@ public class Contact {
     return contactType;
   }
 
-  public void setType(ContactType type) {
-    this.contactType = type;
+  public void setContactType(ContactType contactType) {
+    this.contactType = contactType;
   }
 
   public String getContactValue() {

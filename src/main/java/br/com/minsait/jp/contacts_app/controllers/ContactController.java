@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
+import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,10 +80,10 @@ public class ContactController {
   @Operation(summary = "Atualizar CONTATO", description = "Atualiza informações de um CONTATO na base de dados")
   @PatchMapping("{id}") // PathMapping devido a possibilidade de atualização parcial da entidade
   public ResponseEntity<ApiResponse<Contact>> updateContact(@PathVariable Long id,
-      @RequestBody @Valid ContactUpdateDTO contact) {
+      @RequestBody @Valid ContactUpdateDTO contact) throws BadRequestException {
     ApiResponse<Contact> response = new ApiResponse<>();
 
-    Contact updatedContact = service.updateContact(id, contact);
+    Contact updatedContact = service.updateContactById(id, contact);
     response.setType(ResponseType.SUCCESS);
     response.setBody(updatedContact);
     response.setMessage("Contato atualizado com sucesso.");
@@ -95,7 +96,7 @@ public class ContactController {
   public ResponseEntity<ApiResponse<Contact>> deleteContact(@PathVariable Long id) {
     ApiResponse<Contact> response = new ApiResponse<>();
 
-    Contact deletedContact = service.deleteContact(id);
+    Contact deletedContact = service.deleteContactById(id);
     response.setType(ResponseType.SUCCESS);
     response.setBody(deletedContact);
     response.setMessage("Contato deletado com sucesso.");

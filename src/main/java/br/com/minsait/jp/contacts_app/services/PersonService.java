@@ -55,25 +55,25 @@ public class PersonService {
 
   public Person updatePersonById(Long id, PersonUpdateDTO personUpdateDTO) throws BadRequestException {
     logger.info("Searching person with id {} to update...", id);
-    Person personToUpdate = repository.findById(id)
+    Person person = repository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Pessoa de id " + id + " não encontrada."));
 
     if (!ObjectUtils.hasNonNullField(personUpdateDTO))
       throw new BadRequestException("Nenhum campo enviado para update");
     else {
       if (personUpdateDTO.name() != null)
-        personToUpdate.setName(personUpdateDTO.name());
+        person.setName(personUpdateDTO.name());
       if (personUpdateDTO.street() != null)
-        personToUpdate.setStreet(personUpdateDTO.street());
+        person.setStreet(personUpdateDTO.street());
       if (personUpdateDTO.postalCode() != null)
-        personToUpdate.setPostalCode(personUpdateDTO.postalCode());
+        person.setPostalCode(personUpdateDTO.postalCode());
       if (personUpdateDTO.city() != null)
-        personToUpdate.setCity(personUpdateDTO.city());
+        person.setCity(personUpdateDTO.city());
       if (personUpdateDTO.state() != null)
-        personToUpdate.setState(personUpdateDTO.state());
+        person.setState(personUpdateDTO.state());
     }
 
-    return repository.save(personToUpdate);
+    return repository.save(person);
   }
 
   public Person deletePersonById(Long id) {
