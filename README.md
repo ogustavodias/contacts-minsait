@@ -2,7 +2,7 @@
 
 ## Descrição
 
-O Contacts App é uma aplicação para gerenciar pessoas e seus respectivos contatos. Ele permite adicionar, editar, remover e visualizar pessoas e seus contatos de maneira fácil e eficiente.
+O Contacts App é uma aplicação para gerenciar Pessoas e seus respectivos Contatos. Ele permite adicionar, editar, remover e visualizar Pessoas e seus Contatos de maneira fácil e eficiente.
 
 ## Pré-requisitos
 
@@ -41,7 +41,7 @@ Para iniciar a aplicação, execute o comando:
 mvnw spring-boot:run
 ```
 
-Abra o navegador e acesse `http://localhost:8081/api/users` para ver a aplicação em execução (deve exibir a lista de usuários cadastrados).
+Abra o navegador e acesse [`http://localhost:8081/api/users`](http://localhost:8081/api/users) para ver a aplicação em execução (deve exibir a lista de Pessoas cadastradas).
 
 P.S: Caso haja outra aplicação rodando localmente em sua máquina na porta 8081, será necessário alterar a porta do Contacts App através do arquivo application.properties, localizado no diretório src/main/resources.
 Exemplos de portas:
@@ -52,17 +52,18 @@ Exemplos de portas:
 
 ## Endpoints da API
 
-- **Listar pessoas:** `GET /api/person`
-- **Criar pessoa:** `POST /api/person`
-- **Obter pessoa por ID:** `GET /api/person/{id}`
-- **Atualizar usuário:** `PUT /api/person/{id}`
-- **Excluir usuário:** `DELETE /api/person/{id}`
+- **Criar Pessoa:** `POST /api/persons`
+- **Obter Pessoa por ID:** `GET /api/persons/{id}`
+- **Obter Pessoa por ID para mala direta:** `GET /api/persons/directmail/{id}`
+- **Listar todas as Pessoas:** `GET /api/persons`
+- **Atualizar Pessoa por ID:** `PATCH /api/persons/{id}`
+- **Deletar Pessoa por ID:** `DELETE /api/persons/{id}`
 
-- **Listar contatos:** `GET /api/person`
-- **Criar contatos:** `POST /api/person`
-- **Obter contato por ID:** `GET /api/person/{id}`
-- **Atualizar contato:** `PUT /api/person/{id}`
-- **Excluir contato:** `DELETE /api/person/{id}`
+- **Adicionar um novo Contato a uma Pessoa:** `POST /api/contacts`
+- **Obter Contato por ID:** `GET /api/contacts/{id}`
+- **Listar todos os Contatos de uma Pessoa:** `GET /api/contacts/person/{personId}`
+- **Atualizar Contato por ID :** `PATCH /api/contacts/{id}`
+- **Deletar Contato por ID:** `DELETE /api/contacts/{id}`
 
 📌 **Documentação completa:** [`http://localhost:8081/swagger-ui.html`](http://localhost:8081/swagger-ui.html)
 

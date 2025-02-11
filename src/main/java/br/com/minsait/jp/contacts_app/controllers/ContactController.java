@@ -38,17 +38,17 @@ public class ContactController {
   @Autowired
   private ContactService service;
 
-  @Operation(summary = "Listar CONTATOS da pessoa", description = "Retorna uma lista com todos os CONTATOS cadastrados de uma determinada pessoa")
-  @GetMapping("person/{personId}")
-  public ResponseEntity<ApiResponse<List<Contact>>> getAllContactsByPersonId(@PathVariable Long personId) {
-    ApiResponse<List<Contact>> response = new ApiResponse<>();
+  @Operation(summary = "Inserir CONTATO", description = "Insere um novo CONTATO na base de dados")
+  @PostMapping
+  public ResponseEntity<ApiResponse<Contact>> insertContact(@RequestBody @Valid ContactInsertDTO contact) {
+    ApiResponse<Contact> response = new ApiResponse<>();
 
-    List<Contact> contacts = service.getAllContactsByPersonId(personId);
+    Contact insertedContact = service.insertContact(contact);
     response.setType(ResponseType.SUCCESS);
-    response.setBody(contacts);
-    response.setMessage("Lista obtida com sucesso.");
-    logger.info("List obtained successfully");
-    return ResponseEntity.status(HttpStatus.OK).body(response);
+    response.setBody(insertedContact);
+    response.setMessage("Contato inserido com sucesso.");
+    logger.info("Contact entered successfully");
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
   @Operation(summary = "Buscar CONTATO", description = "Busca e retorna um determinado CONTATO cadastrado no banco de dados")
@@ -64,17 +64,17 @@ public class ContactController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
-  @Operation(summary = "Inserir CONTATO", description = "Insere um novo CONTATO na base de dados")
-  @PostMapping
-  public ResponseEntity<ApiResponse<Contact>> insertContact(@RequestBody @Valid ContactInsertDTO contact) {
-    ApiResponse<Contact> response = new ApiResponse<>();
+  @Operation(summary = "Listar CONTATOS da pessoa", description = "Retorna uma lista com todos os CONTATOS cadastrados de uma determinada pessoa")
+  @GetMapping("person/{personId}")
+  public ResponseEntity<ApiResponse<List<Contact>>> getAllContactsByPersonId(@PathVariable Long personId) {
+    ApiResponse<List<Contact>> response = new ApiResponse<>();
 
-    Contact insertedContact = service.insertContact(contact);
+    List<Contact> contacts = service.getAllContactsByPersonId(personId);
     response.setType(ResponseType.SUCCESS);
-    response.setBody(insertedContact);
-    response.setMessage("Contato inserido com sucesso.");
-    logger.info("Contact entered successfully");
-    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    response.setBody(contacts);
+    response.setMessage("Lista obtida com sucesso.");
+    logger.info("List obtained successfully");
+    return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
   @Operation(summary = "Atualizar CONTATO", description = "Atualiza informações de um CONTATO na base de dados")
