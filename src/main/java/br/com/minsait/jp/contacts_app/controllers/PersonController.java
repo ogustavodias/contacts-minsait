@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
+import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +94,7 @@ public class PersonController {
   @Operation(summary = "Atualizar PESSOA", description = "Atualizar informações de uma PESSOA na base de dados")
   @PatchMapping("{id}") // PathMapping devido a possibilidade de atualização parcial da entidade
   public ResponseEntity<ApiResponse<Person>> updatePersonById(@PathVariable Long id,
-      @RequestBody @Valid PersonUpdateDTO person) {
+      @RequestBody @Valid PersonUpdateDTO person) throws BadRequestException {
     ApiResponse<Person> response = new ApiResponse<>();
 
     Person updatedPerson = service.updatePersonById(id, person);

@@ -1,26 +1,15 @@
 package br.com.minsait.jp.contacts_app.dto;
 
-import br.com.minsait.jp.contacts_app.interfaces.DTO;
-import br.com.minsait.jp.contacts_app.models.Person;
-import br.com.minsait.jp.contacts_app.validations.AtLeastOneField;
-import br.com.minsait.jp.contacts_app.validations.NullButNotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-@AtLeastOneField(fields = { "name" })
-public class PersonUpdateDTO implements DTO<Person> {
-
-  @NullButNotBlank(fieldName = "name")
-  private String name;
-
-  @Override
-  public Person toPersistEntity(Person person) {
-    if (this.name != null)
-      person.setName(this.name);
-
-    return person;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
+public record PersonUpdateDTO(
+  @Size(min = 2, max = 100, message = "'name' deve ter entre 2 e 100 caracteres") 
+  @Pattern(regexp = "^(?i)[a-záéíóúàèìòùç]+(?: [a-záéíóúàèìòùç]+)+$", message = "'name' deve ser um nome completo válido") 
+  String name, 
+  String street, 
+  @Pattern(regexp = "^\\d{8}$", message = "'postalCode' deve ser um CEP válido, somente com números e 8 caracteres")
+  String postalCode, 
+  String city, 
+  String state) {
 }

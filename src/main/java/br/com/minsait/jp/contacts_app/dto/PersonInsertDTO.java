@@ -10,6 +10,7 @@ public record PersonInsertDTO(
     @Pattern(regexp = "^(?i)[a-záéíóúàèìòùç]+(?: [a-záéíóúàèìòùç]+)+$", message = "'name' deve ser um nome completo válido") 
     String name,
     String street,
+    @Pattern(regexp = "^\\d{8}$", message = "'postalCode' deve ser um CEP válido, somente com números e 8 caracteres")
     String postalCode,
     String city,
     String state) {
