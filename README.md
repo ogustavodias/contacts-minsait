@@ -41,7 +41,7 @@ Para iniciar a aplicação, execute o comando:
 mvnw spring-boot:run
 ```
 
-Abra o navegador e acesse [`http://localhost:8081/api/users`](http://localhost:8081/api/users) para ver a aplicação em execução (deve exibir a lista de Pessoas cadastradas).
+Abra o navegador e acesse [`http://localhost:8081/api/persons`](http://localhost:8081/api/persons) para ver a aplicação em execução (deve exibir a lista de Pessoas cadastradas).
 
 P.S: Caso haja outra aplicação rodando localmente em sua máquina na porta 8081, será necessário alterar a porta do Contacts App através do arquivo application.properties, localizado no diretório src/main/resources.
 Exemplos de portas:
