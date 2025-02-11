@@ -45,7 +45,7 @@ public class Person {
     this.state = state;
   }
 
-  public Person(Builder builder) {
+  private Person(Builder builder) {
     this.id = builder.id;
     this.name = builder.name;
     this.street = builder.street;

@@ -24,16 +24,13 @@ public class Contact {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotNull(message = "'contactType' não deve ser nulo")
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private ContactType contactType;
 
-  @NotBlank(message = "'contactValue' não deve ser nulo ou em branco")
   @Column(nullable = false, unique = true)
   private String contactValue;
 
-  @NotNull(message = "'person' deve ser informado juntamente com seu 'id'")
   @ManyToOne
   @JoinColumn(name = "person_id")
   @JsonBackReference
@@ -47,6 +44,13 @@ public class Contact {
     this.contactType = contactType;
     this.contactValue = contactValue;
     this.person = person;
+  }
+
+  private Contact(Builder builder) {
+    this.id = builder.id;
+    this.contactType = builder.contactType;
+    this.contactValue = builder.contactValue;
+    this.person = builder.person;
   }
 
   public Long getId() {
@@ -83,7 +87,42 @@ public class Contact {
 
   @Override
   public String toString() {
-    return "{" + "Type: " + getContactType() + "| Value: " + getContactValue() + "| Person: " + getPerson() + "}";
+    return String.format(
+        "{ ID: %d | TYPE: %s | VALUE: %s | PERSON: %s }",
+        this.id, this.contactType, this.contactValue, this.person);
+  }
+
+  // Builder
+  public static class Builder {
+    private Long id;
+    private ContactType contactType;
+    private String contactValue;
+    private Person person;
+
+    public Builder setId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder setContactType(ContactType contactType) {
+      this.contactType = contactType;
+      return this;
+    }
+
+    public Builder setContactValue(String contactValue) {
+      this.contactValue = contactValue;
+      return this;
+    }
+
+    public Builder setPerson(Person person) {
+      this.person = person;
+      return this;
+    }
+
+    public Contact build() {
+      return new Contact(this);
+    }
+
   }
 
 }

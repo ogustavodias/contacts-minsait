@@ -8,22 +8,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.minsait.jp.contacts_app.dto.ContactInsertDTO;
 import br.com.minsait.jp.contacts_app.dto.ContactUpdateDTO;
 import br.com.minsait.jp.contacts_app.enums.ContactType;
 import br.com.minsait.jp.contacts_app.models.Contact;
+import br.com.minsait.jp.contacts_app.models.Person;
 import br.com.minsait.jp.contacts_app.repositorys.ContactRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ContactService {
-  private static final Pattern EMAIL_PATTERN = Pattern
-      .compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
-  private static final Pattern PHONE_PATTERN = Pattern
-      .compile("^\\+?\\d{0,2}\\s?\\(?\\d{2,3}\\)?\\s?\\d{4,5}-?\\d{4}$");
+
   private static final Logger logger = LoggerFactory.getLogger(ContactService.class);
 
   @Autowired
   private ContactRepository repository;
+
+  @Autowired
+  private PersonService personService;
 
   public List<Contact> getAllContactsByPersonId(Long personId) {
     logger.info("Searching all contacts of person with id {} ...", personId);
@@ -36,9 +38,15 @@ public class ContactService {
         .orElseThrow(() -> new EntityNotFoundException("Contato de id " + id + " não encontrado"));
   }
 
-  public Contact insertContact(Contact contact) {
-    logger.info("Saving contact {}...", contact);
+  public Contact insertContact(ContactInsertDTO contactInsertDTO) {
+    Person person = personService.getPersonById(contactInsertDTO.personId());
+    Contact contact = new Contact.Builder()
+        .setContactType(contactInsertDTO.contactType())
+        .setContactValue(contactInsertDTO.contactValue())
+        .setPerson(person)
+        .build();
     checkIfIsValidContact(contact);
+    logger.info("Saving contact {}...", contact);
     return repository.save(contact);
   }
 
@@ -47,7 +55,7 @@ public class ContactService {
     Contact contactToUpdate = repository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Contato de id " + id + " não encontrado"));
 
-    return this.insertContact(contact.toPersistEntity(contactToUpdate));
+    return repository.save(contact.toPersistEntity(contactToUpdate));
   }
 
   public Contact deleteContact(Long id) {
@@ -60,6 +68,11 @@ public class ContactService {
   }
 
   public Boolean checkIfIsValidContact(Contact contact) throws IllegalArgumentException {
+    Pattern EMAIL_PATTERN = Pattern
+        .compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+    Pattern PHONE_PATTERN = Pattern
+        .compile("^\\+?\\d{0,2}\\s?\\(?\\d{2,3}\\)?\\s?\\d{4,5}-?\\d{4}$");
+
     ContactType contactType = contact.getContactType();
     String contactValue = contact.getContactValue();
 

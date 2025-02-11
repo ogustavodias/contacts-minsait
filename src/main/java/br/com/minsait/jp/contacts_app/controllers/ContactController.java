@@ -3,6 +3,7 @@ package br.com.minsait.jp.contacts_app.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.minsait.jp.contacts_app.common.ApiResponse;
+import br.com.minsait.jp.contacts_app.dto.ContactInsertDTO;
 import br.com.minsait.jp.contacts_app.dto.ContactUpdateDTO;
 import br.com.minsait.jp.contacts_app.enums.ResponseType;
 import br.com.minsait.jp.contacts_app.models.Contact;
@@ -64,7 +65,7 @@ public class ContactController {
 
   @Operation(summary = "Inserir CONTATO", description = "Insere um novo CONTATO na base de dados")
   @PostMapping
-  public ResponseEntity<ApiResponse<Contact>> insertContact(@RequestBody @Valid Contact contact) {
+  public ResponseEntity<ApiResponse<Contact>> insertContact(@RequestBody @Valid ContactInsertDTO contact) {
     ApiResponse<Contact> response = new ApiResponse<>();
 
     Contact insertedContact = service.insertContact(contact);
