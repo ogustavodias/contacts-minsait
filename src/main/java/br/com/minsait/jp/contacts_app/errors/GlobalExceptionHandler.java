@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ApiResponseDTO<?>> handleIlegalArguments(IllegalArgumentException e) {
     logger.error("Unexpected error occurred: IllegalArgumentException. " + e.getMessage());
     ApiResponseDTO<?> response = ApiResponseDTO.error("Houve um erro inesperado. " + e.getMessage());
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ApiResponseDTO<?>> handleEntityNotFound(EntityNotFoundException e) {
     logger.error("Unexpected error occurred: EntityNotFoundException. " + e.getMessage());
     ApiResponseDTO<?> response = ApiResponseDTO.error("Houve um erro inesperado. " + e.getMessage());
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
   }
 
 }

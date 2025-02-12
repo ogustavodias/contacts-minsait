@@ -15,12 +15,12 @@ VALUES
     null,
     null
   ),
-  ('Ramon Alves', null, '11111-111', null, null);
+  ('Ramon Alves', null, '91111-111', null, null);
 
 INSERT INTO
   tb_contacts (person_id, contact_type, contact_value)
 VALUES
   (1, 'EMAIL', 'gustavo@example.com'),
-  (2, 'PHONE', '123456789'),
+  (2, 'PHONE', '1140228922'),
   (3, 'EMAIL', 'ramonzinho@hotmail.com'),
-  (3, 'PHONE', '987654321');
+  (3, 'PHONE', '11987654321');

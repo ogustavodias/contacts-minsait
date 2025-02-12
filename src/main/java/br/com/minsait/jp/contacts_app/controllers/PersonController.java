@@ -14,7 +14,6 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
-import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +43,7 @@ public class PersonController {
     Person insertedPerson = service.insertPerson(person);
     ApiResponseDTO<Person> response = ApiResponseDTO.success("Pessoa inserida com sucesso.", insertedPerson);
 
-    logger.info("Person entered successfully");
+    logger.info("Person entered successfully: {}", insertedPerson);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
@@ -54,7 +53,7 @@ public class PersonController {
     Person person = service.getPersonById(id);
     ApiResponseDTO<Person> response = ApiResponseDTO.success("Pessoa obtida com sucesso.", person);
 
-    logger.info("Person obtained successfully");
+    logger.info("Person obtained successfully: {}", person);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
@@ -66,7 +65,7 @@ public class PersonController {
         "Mala direta obtida com sucesso.",
         directMail);
 
-    logger.info("Direct Mail obtained successfully");
+    logger.info("Direct Mail obtained successfully: {}", directMail);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
@@ -76,18 +75,23 @@ public class PersonController {
     List<Person> persons = service.getAllPersons();
     ApiResponseDTO<List<Person>> response = ApiResponseDTO.success("Lista obtida com sucesso.", persons);
 
-    logger.info("List obtained successfully");
+    if (persons.isEmpty()) {
+      logger.info("List obtained successfully, but is empty.");
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+    }
+
+    logger.info("List obtained successfully. Total Persons: {}", persons.size());
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
   @Operation(summary = "Atualizar Pessoa por ID", description = "Busca pelo ID da Pessoa no banco de dados e atualiza suas informações com os novos dados enviados")
   @PatchMapping("{id}") // PathMapping devido a possibilidade de atualização parcial da entidade
   public ResponseEntity<ApiResponseDTO<Person>> updatePersonById(@PathVariable Long id,
-      @RequestBody @Valid PersonUpdateDTO person) throws BadRequestException {
+      @RequestBody @Valid PersonUpdateDTO person) {
     Person updatedPerson = service.updatePersonById(id, person);
     ApiResponseDTO<Person> response = ApiResponseDTO.success("Pessoa atualizada com sucesso.", updatedPerson);
 
-    logger.info("Person updated successfully");
+    logger.info("Person updated successfully: {}", updatedPerson);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
@@ -97,7 +101,7 @@ public class PersonController {
     Person deletedPerson = service.deletePersonById(id);
     ApiResponseDTO<Person> response = ApiResponseDTO.success("Pessoa deletada com sucesso.", deletedPerson);
 
-    logger.info("Person deleted successfully");
+    logger.info("Person deleted successfully: {}", deletedPerson);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 

@@ -13,7 +13,6 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
-import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class ContactController {
     Contact insertedContact = service.insertContact(contact);
     ApiResponseDTO<Contact> response = ApiResponseDTO.success("Contato inserido com sucesso.", insertedContact);
 
-    logger.info("Contact entered successfully");
+    logger.info("Contact entered successfully: {}", insertedContact);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
@@ -53,7 +52,7 @@ public class ContactController {
     Contact contact = service.getContactById(id);
     ApiResponseDTO<Contact> response = ApiResponseDTO.success("Contato obtido com sucesso.", contact);
 
-    logger.info("Contact obtained successfully");
+    logger.info("Contact obtained successfully: {}", contact);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
@@ -63,7 +62,12 @@ public class ContactController {
     List<Contact> contacts = service.getAllContactsByPersonId(personId);
     ApiResponseDTO<List<Contact>> response = ApiResponseDTO.success("Lista obtida com sucesso.", contacts);
 
-    logger.info("List obtained successfully");
+    if (contacts.isEmpty()) {
+      logger.info("List obtained successfully, but is empty.");
+      ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+    }
+
+    logger.info("List obtained successfully. Total Contacts of Person with id {}: {}.", personId, contacts.size());
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
@@ -71,11 +75,11 @@ public class ContactController {
   @PatchMapping("{id}") // PathMapping devido a possibilidade de atualização parcial da entidade
   public ResponseEntity<ApiResponseDTO<Contact>> updateContact(
       @PathVariable Long id,
-      @RequestBody @Valid ContactUpdateDTO contact) throws BadRequestException {
+      @RequestBody @Valid ContactUpdateDTO contact) {
     Contact updatedContact = service.updateContactById(id, contact);
     ApiResponseDTO<Contact> response = ApiResponseDTO.success("Contato atualizado com sucesso.", updatedContact);
 
-    logger.info("Contact updated successfully");
+    logger.info("Contact updated successfully: {}", updatedContact);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
@@ -85,7 +89,7 @@ public class ContactController {
     Contact deletedContact = service.deleteContactById(id);
     ApiResponseDTO<Contact> response = ApiResponseDTO.success("Contato deletado com sucesso.", deletedContact);
 
-    logger.info("Contact deleted successfully");
+    logger.info("Contact deleted successfully: {}", deletedContact);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 

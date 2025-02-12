@@ -2,7 +2,6 @@ package br.com.minsait.jp.contacts_app.services;
 
 import java.util.List;
 
-import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class PersonService {
   }
 
   public PersonDirectMailDTO getPersonDirectMailById(Long id) {
-    Person person = getPersonById(id);
+    Person person = this.getPersonById(id);
     logger.info("Getting direct mail for person with id {}", id);
     return new PersonDirectMailDTO(person);
   }
@@ -53,13 +52,11 @@ public class PersonService {
     return repository.findAll();
   }
 
-  public Person updatePersonById(Long id, PersonUpdateDTO personUpdateDTO) throws BadRequestException {
-    logger.info("Searching person with id {} to update...", id);
-    Person person = repository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Pessoa de id " + id + " não encontrada."));
+  public Person updatePersonById(Long id, PersonUpdateDTO personUpdateDTO) {
+    Person person = this.getPersonById(id);
 
     if (!ObjectUtils.hasNonNullField(personUpdateDTO))
-      throw new BadRequestException("Nenhum campo enviado para update");
+      throw new IllegalArgumentException("Nenhum campo enviado para update");
     else {
       if (personUpdateDTO.name() != null)
         person.setName(personUpdateDTO.name());
@@ -77,9 +74,7 @@ public class PersonService {
   }
 
   public Person deletePersonById(Long id) {
-    logger.info("Searching person with id {} to delete...", id);
-    Person personToDelete = repository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada"));
+    Person personToDelete = this.getPersonById(id);
 
     repository.delete(personToDelete);
     return personToDelete;

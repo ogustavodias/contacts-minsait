@@ -88,8 +88,8 @@ public class Contact {
   @Override
   public String toString() {
     return String.format(
-        "{ ID: %d | TYPE: %s | VALUE: %s | PERSON: %s }",
-        this.id, this.contactType, this.contactValue, this.person);
+        "{ ID: %d | TYPE: %s | VALUE: %s }",
+        this.id, this.contactType, this.contactValue);
   }
 
   // Builder
