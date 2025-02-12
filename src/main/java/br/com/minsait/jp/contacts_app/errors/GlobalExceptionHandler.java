@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
     response.setMessage("Houve um erro inesperado. " + e.getMessage());
     response.setType(ResponseType.ERROR);
     response.setBody(null);
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
   }
 
 }
