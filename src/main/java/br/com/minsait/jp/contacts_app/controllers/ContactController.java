@@ -2,10 +2,9 @@ package br.com.minsait.jp.contacts_app.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.minsait.jp.contacts_app.common.ApiResponse;
+import br.com.minsait.jp.contacts_app.dto.ApiResponseDTO;
 import br.com.minsait.jp.contacts_app.dto.ContactInsertDTO;
 import br.com.minsait.jp.contacts_app.dto.ContactUpdateDTO;
-import br.com.minsait.jp.contacts_app.enums.ResponseType;
 import br.com.minsait.jp.contacts_app.models.Contact;
 import br.com.minsait.jp.contacts_app.services.ContactService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("/api/contacts")
-@Tag(name = "Contatos", description = "API para gerenciar contatos")
+@Tag(name = "Contatos", description = "API para gerenciar Contatos")
 public class ContactController {
 
   private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
@@ -40,66 +39,52 @@ public class ContactController {
 
   @Operation(summary = "Adicionar um novo Contato a uma Pessoa", description = "Cria e insere um Contato de uma Pessoa no banco de dados")
   @PostMapping
-  public ResponseEntity<ApiResponse<Contact>> insertContact(@RequestBody @Valid ContactInsertDTO contact) {
-    ApiResponse<Contact> response = new ApiResponse<>();
-
+  public ResponseEntity<ApiResponseDTO<Contact>> insertContact(@RequestBody @Valid ContactInsertDTO contact) {
     Contact insertedContact = service.insertContact(contact);
-    response.setType(ResponseType.SUCCESS);
-    response.setBody(insertedContact);
-    response.setMessage("Contato inserido com sucesso.");
+    ApiResponseDTO<Contact> response = ApiResponseDTO.success("Contato inserido com sucesso.", insertedContact);
+
     logger.info("Contact entered successfully");
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
   @Operation(summary = "Obter Contato por ID", description = "Busca pelo ID do Contato no banco de dados e retorna o Contato")
   @GetMapping("{id}")
-  public ResponseEntity<ApiResponse<Contact>> getContactById(@PathVariable Long id) {
-    ApiResponse<Contact> response = new ApiResponse<>();
-
+  public ResponseEntity<ApiResponseDTO<Contact>> getContactById(@PathVariable Long id) {
     Contact contact = service.getContactById(id);
-    response.setType(ResponseType.SUCCESS);
-    response.setBody(contact);
-    response.setMessage("Contato obtido com sucesso.");
+    ApiResponseDTO<Contact> response = ApiResponseDTO.success("Contato obtido com sucesso.", contact);
+
     logger.info("Contact obtained successfully");
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
   @Operation(summary = "Listar todos os Contatos de uma Pessoa", description = "Busca pelo ID de uma Pessoa no banco de dados e retorna uma lista com todos os seus Contatos")
   @GetMapping("person/{personId}")
-  public ResponseEntity<ApiResponse<List<Contact>>> getAllContactsByPersonId(@PathVariable Long personId) {
-    ApiResponse<List<Contact>> response = new ApiResponse<>();
-
+  public ResponseEntity<ApiResponseDTO<List<Contact>>> getAllContactsByPersonId(@PathVariable Long personId) {
     List<Contact> contacts = service.getAllContactsByPersonId(personId);
-    response.setType(ResponseType.SUCCESS);
-    response.setBody(contacts);
-    response.setMessage("Lista obtida com sucesso.");
+    ApiResponseDTO<List<Contact>> response = ApiResponseDTO.success("Lista obtida com sucesso.", contacts);
+
     logger.info("List obtained successfully");
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
-  @Operation(summary = "Atualizar Contato por ID", description = "Busca pelo ID do Contato no banco dados e atualiza suas informações  com os novos dados enviados")
+  @Operation(summary = "Atualizar Contato por ID", description = "Busca pelo ID do Contato no banco dados e atualiza suas informações com os novos dados enviados")
   @PatchMapping("{id}") // PathMapping devido a possibilidade de atualização parcial da entidade
-  public ResponseEntity<ApiResponse<Contact>> updateContact(@PathVariable Long id,
+  public ResponseEntity<ApiResponseDTO<Contact>> updateContact(
+      @PathVariable Long id,
       @RequestBody @Valid ContactUpdateDTO contact) throws BadRequestException {
-    ApiResponse<Contact> response = new ApiResponse<>();
-
     Contact updatedContact = service.updateContactById(id, contact);
-    response.setType(ResponseType.SUCCESS);
-    response.setBody(updatedContact);
-    response.setMessage("Contato atualizado com sucesso.");
+    ApiResponseDTO<Contact> response = ApiResponseDTO.success("Contato atualizado com sucesso.", updatedContact);
+
     logger.info("Contact updated successfully");
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
   @Operation(summary = "Deletar Contato por ID", description = "Busca pelo ID do Contato no banco de dados e deleta o Contato")
   @DeleteMapping("{id}")
-  public ResponseEntity<ApiResponse<Contact>> deleteContact(@PathVariable Long id) {
-    ApiResponse<Contact> response = new ApiResponse<>();
-
+  public ResponseEntity<ApiResponseDTO<Contact>> deleteContact(@PathVariable Long id) {
     Contact deletedContact = service.deleteContactById(id);
-    response.setType(ResponseType.SUCCESS);
-    response.setBody(deletedContact);
-    response.setMessage("Contato deletado com sucesso.");
+    ApiResponseDTO<Contact> response = ApiResponseDTO.success("Contato deletado com sucesso.", deletedContact);
+
     logger.info("Contact deleted successfully");
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }

@@ -9,8 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.com.minsait.jp.contacts_app.common.ApiResponse;
-import br.com.minsait.jp.contacts_app.enums.ResponseType;
+import br.com.minsait.jp.contacts_app.dto.ApiResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 
 @ControllerAdvice
@@ -19,50 +18,38 @@ public class GlobalExceptionHandler {
   private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<ApiResponse<?>> handleAll(Exception e) {
+  public ResponseEntity<ApiResponseDTO<?>> handleAll(Exception e) {
     logger.error("Unexpected error occurred: Exception. " + e.getMessage());
-    ApiResponse<?> response = new ApiResponse<>();
-    response.setMessage("Houve um erro inesperado.");
-    response.setType(ResponseType.ERROR);
-    response.setBody(null);
+    ApiResponseDTO<?> response = ApiResponseDTO.error("Houve um erro inesperado.");
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
   }
 
   @ExceptionHandler(IllegalArgumentException.class)
-  public ResponseEntity<ApiResponse<?>> handleIlegalArguments(IllegalArgumentException e) {
+  public ResponseEntity<ApiResponseDTO<?>> handleIlegalArguments(IllegalArgumentException e) {
     logger.error("Unexpected error occurred: IllegalArgumentException. " + e.getMessage());
-    ApiResponse<?> response = new ApiResponse<>();
-    response.setMessage("Houve um erro inesperado. " + e.getMessage());
-    response.setType(ResponseType.ERROR);
-    response.setBody(null);
+    ApiResponseDTO<?> response = ApiResponseDTO.error("Houve um erro inesperado. " + e.getMessage());
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ApiResponse<?>> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
+  public ResponseEntity<ApiResponseDTO<?>> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
     logger.error("Unexpected error occurred: MethodArgumentNotValidException. " + e.getMessage());
 
-    ApiResponse<?> response = new ApiResponse<>();
     StringBuilder errorMessage = new StringBuilder();
 
     for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
       errorMessage.append(fieldError.getDefaultMessage()).append("; ");
     }
 
-    response.setMessage("Houve um erro inesperado. " + errorMessage);
-    response.setType(ResponseType.ERROR);
-    response.setBody(null);
+    ApiResponseDTO<?> response = ApiResponseDTO.error("Houve um erro inesperado. " + errorMessage);
+
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
 
   @ExceptionHandler(EntityNotFoundException.class)
-  public ResponseEntity<ApiResponse<?>> handleEntityNotFound(EntityNotFoundException e) {
+  public ResponseEntity<ApiResponseDTO<?>> handleEntityNotFound(EntityNotFoundException e) {
     logger.error("Unexpected error occurred: EntityNotFoundException. " + e.getMessage());
-
-    ApiResponse<?> response = new ApiResponse<>();
-    response.setMessage("Houve um erro inesperado. " + e.getMessage());
-    response.setType(ResponseType.ERROR);
-    response.setBody(null);
+    ApiResponseDTO<?> response = ApiResponseDTO.error("Houve um erro inesperado. " + e.getMessage());
     return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
   }
 
