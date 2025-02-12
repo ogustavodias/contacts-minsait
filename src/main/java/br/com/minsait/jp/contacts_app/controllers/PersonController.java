@@ -39,7 +39,7 @@ public class PersonController {
   @Autowired
   private PersonService service;
 
-  @Operation(summary = "Criar Pessoa", description = "Cria e insere uma nova Pessoa na base de dados")
+  @Operation(summary = "Criar Pessoa", description = "Cria e insere uma nova Pessoa no banco de dados")
   @PostMapping
   public ResponseEntity<ApiResponse<Person>> insertPerson(@RequestBody @Valid PersonInsertDTO person) {
     ApiResponse<Person> response = new ApiResponse<>();
@@ -52,7 +52,7 @@ public class PersonController {
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
-  @Operation(summary = "Obter Pessoa por ID", description = "Busca pelo ID na base de dados e retorna a Pessoa correspondente")
+  @Operation(summary = "Obter Pessoa por ID", description = "Busca pelo ID da Pessoa no banco de dados e retorna a Pessoa")
   @GetMapping("{id}")
   public ResponseEntity<ApiResponse<Person>> getPersonById(@PathVariable Long id) {
     ApiResponse<Person> response = new ApiResponse<>();
@@ -65,7 +65,7 @@ public class PersonController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
-  @Operation(summary = "Obter Pessoa por ID para mala direta", description = "Busca pelo ID na base de dados e retorna uma Mala Direta para a Pessoa correspondente")
+  @Operation(summary = "Obter Pessoa por ID para mala direta", description = "Busca pelo ID da Pessoa no banco de dados e retorna uma Mala Direta com alguns dos dados da Pessoa")
   @GetMapping("directmail/{id}")
   public ResponseEntity<ApiResponse<PersonDirectMailDTO>> getPersonDirectMailById(@PathVariable Long id) {
     ApiResponse<PersonDirectMailDTO> response = new ApiResponse<>();
@@ -91,7 +91,7 @@ public class PersonController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
-  @Operation(summary = "Atualizar Pessoa por ID", description = "Busca pelo ID na base dados e atualiza as informações da Pessoa correspondente com os novos dados enviados")
+  @Operation(summary = "Atualizar Pessoa por ID", description = "Busca pelo ID da Pessoa no banco de dados e atualiza suas informações com os novos dados enviados")
   @PatchMapping("{id}") // PathMapping devido a possibilidade de atualização parcial da entidade
   public ResponseEntity<ApiResponse<Person>> updatePersonById(@PathVariable Long id,
       @RequestBody @Valid PersonUpdateDTO person) throws BadRequestException {
@@ -105,7 +105,7 @@ public class PersonController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
-  @Operation(summary = "Deletar Pessoa por ID", description = "Busca pelo ID na base de dados e deleta a Pessoa correspondente")
+  @Operation(summary = "Deletar Pessoa por ID", description = "Busca pelo ID da Pessoa no banco de dados e deleta a Pessoa")
   @DeleteMapping("{id}")
   public ResponseEntity<ApiResponse<Person>> deletePersonById(@PathVariable Long id) {
     ApiResponse<Person> response = new ApiResponse<>();
