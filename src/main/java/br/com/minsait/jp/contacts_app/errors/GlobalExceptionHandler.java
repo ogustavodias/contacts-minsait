@@ -8,6 +8,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import br.com.minsait.jp.contacts_app.dto.ApiResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,6 +23,14 @@ public class GlobalExceptionHandler {
     logger.error("Unexpected error occurred: Exception. " + e.getMessage());
     ApiResponseDTO<?> response = ApiResponseDTO.error("Houve um erro inesperado.");
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+  }
+
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<ApiResponseDTO<?>> handleEntityNotFound(MethodArgumentTypeMismatchException e) {
+    logger.error("Unexpected error occurred: MethodArgumentTypeMismatchException. " + e.getMessage());
+    ApiResponseDTO<?> response = ApiResponseDTO
+        .error("Houve um erro inesperado. O parâmetro enviado não é do tipo esperado: " + e.getRequiredType());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
   }
 
   @ExceptionHandler(IllegalArgumentException.class)
