@@ -67,10 +67,6 @@ public class ContactService {
         contact.setContactType(contactUpdateDTO.contactType());
       if (contactUpdateDTO.contactValue() != null)
         contact.setContactValue(contactUpdateDTO.contactValue());
-      if (contactUpdateDTO.personId() != null) {
-        Person person = personService.getPersonById(contactUpdateDTO.personId());
-        contact.setPerson(person);
-      }
     }
 
     return repository.save(ContactValidator.isValidContact(contact));
