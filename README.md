@@ -52,6 +52,7 @@ Exemplos de portas:
 
 ## Endpoints da API
 
+### Persons:
 - **Criar Pessoa:** `POST /api/persons`
 - **Obter Pessoa por ID:** `GET /api/persons/{id}`
 - **Obter Pessoa por ID para mala direta:** `GET /api/persons/directmail/{id}`
@@ -59,6 +60,7 @@ Exemplos de portas:
 - **Atualizar Pessoa por ID:** `PATCH /api/persons/{id}`
 - **Deletar Pessoa por ID:** `DELETE /api/persons/{id}`
 
+### Contacts:
 - **Adicionar um novo Contato a uma Pessoa:** `POST /api/contacts`
 - **Obter Contato por ID:** `GET /api/contacts/{id}`
 - **Listar todos os Contatos de uma Pessoa:** `GET /api/contacts/person/{personId}`
