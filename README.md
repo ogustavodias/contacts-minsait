@@ -83,6 +83,20 @@ Use as credenciais:
 
 P.S: Password em branco.
 
+## Testes Unitários
+
+Neste projeto, foram incluídos testes unitários básicos para os controllers **Person** e **Contact**. Os testes abrangem as funcionalidades de inserção desses recursos, utilizando a abordagem de testes com `MockMvc`.
+
+### Débito Técnico:
+
+Devido a limitações de tempo, não foram implementados testes para todos os cenários possíveis, como:
+
+- Testes dos demais endpoints
+- Testes dos services
+- Testes de integração mais complexos
+
+Esses testes podem ser implementados em uma fase posterior do desenvolvimento, garantindo uma cobertura completa e robusta para o projeto.
+
 ## Licença
 
 Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.

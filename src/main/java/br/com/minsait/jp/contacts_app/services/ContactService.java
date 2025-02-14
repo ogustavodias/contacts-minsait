@@ -48,6 +48,7 @@ public class ContactService {
   }
 
   public List<Contact> getAllContactsByPersonId(Long personId) {
+    personService.getPersonById(personId); // if not found, throws EntityNotFound
     logger.info("Searching all contacts of person with id {} ...", personId);
     return repository.findAllByPersonId(personId);
   }
@@ -75,7 +76,7 @@ public class ContactService {
   public Contact deleteContactById(Long id) {
     logger.info("Searching contact with id {} to delete...", id);
     Contact contactToDelete = repository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Contato não encontrado"));
+        .orElseThrow(() -> new EntityNotFoundException("Contato de id " + id + " não encontrado"));
 
     repository.delete(contactToDelete);
     return contactToDelete;
