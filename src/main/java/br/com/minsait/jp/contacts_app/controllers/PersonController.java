@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/persons")
 @Tag(name = "Pessoas", description = "API para gerenciar Pessoas")
 @Validated
+@CrossOrigin("*")
 public class PersonController {
 
   private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
@@ -76,11 +78,6 @@ public class PersonController {
   public ResponseEntity<ApiResponseDTO<List<Person>>> getAllPersons() {
     List<Person> persons = service.getAllPersons();
     ApiResponseDTO<List<Person>> response = ApiResponseDTO.success("Lista obtida com sucesso.", persons);
-
-    if (persons.isEmpty()) {
-      logger.info("List obtained successfully, but is empty.");
-      return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
-    }
 
     logger.info("List obtained successfully. Total Persons: {}", persons.size());
     return ResponseEntity.status(HttpStatus.OK).body(response);

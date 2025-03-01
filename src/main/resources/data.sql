@@ -4,18 +4,24 @@ VALUES
   (
     'Gustavo Alves Dias',
     'Rua Cantagalo, 20',
-    '00000-000',
-    'Sao Paulo',
+    '00000000',
+    'São Paulo',
     'SP'
   ),
   (
     'Eduardo Henrique Marques Ferreira',
-    null,
-    null,
-    null,
-    null
+    'Rua Samba, 40',
+    '11111111',
+    'Ourinhos',
+    'SP'
   ),
-  ('Ramon Alves', null, '91111-111', null, null);
+  (
+    'Ramon Alves',
+    'Barão de Piracicaba, 9000',
+    '22222222',
+    'São Paulo',
+    'SP'
+  );
 
 INSERT INTO
   tb_contacts (person_id, contact_type, contact_value)

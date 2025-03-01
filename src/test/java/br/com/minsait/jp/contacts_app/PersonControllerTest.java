@@ -32,7 +32,7 @@ public class PersonControllerTest {
 
   @Test
   void insertPersonSuccess() throws Exception {
-    PersonInsertDTO personRequest = new PersonInsertDTO("Augusto Oliveira", null, null, null, null);
+    PersonInsertDTO personRequest = new PersonInsertDTO("Augusto Oliveira", null, null, null, null, null);
 
     when(pService.insertPerson(any(PersonInsertDTO.class)))
         .thenReturn(new Person.Builder().setName(personRequest.name()).build());
@@ -47,7 +47,7 @@ public class PersonControllerTest {
   @Test
   void insertPersonError() throws Exception {
     PersonInsertDTO personRequestWithoutName = new PersonInsertDTO(null, null, null,
-        null, null);
+        null, null, null);
 
     mockMvc.perform(post("/api/persons")
         .contentType(MediaType.APPLICATION_JSON)

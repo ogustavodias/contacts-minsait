@@ -28,7 +28,7 @@ public class Contact {
   @Enumerated(EnumType.STRING)
   private ContactType contactType;
 
-  @Column(nullable = false, unique = true)
+  @Column(nullable = false)
   private String contactValue;
 
   @ManyToOne

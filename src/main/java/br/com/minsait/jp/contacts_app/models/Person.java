@@ -29,14 +29,15 @@ public class Person {
   private String city;
   private String state;
 
-  @OneToMany(mappedBy = "person", cascade = CascadeType.REMOVE, orphanRemoval = true)
+  @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonManagedReference
   private List<Contact> contacts;
 
   public Person() {
   }
 
-  public Person(Long id, String name, String street, String postalCode, String city, String state) {
+  public Person(Long id, String name, String street, String postalCode, String city, String state,
+      List<Contact> contacts) {
     this.id = id;
     this.name = name;
     this.street = street;
@@ -52,6 +53,7 @@ public class Person {
     this.postalCode = builder.postalCode;
     this.city = builder.city;
     this.state = builder.state;
+    this.contacts = builder.contacts;
   }
 
   public Long getId() {
@@ -125,6 +127,7 @@ public class Person {
     private String postalCode;
     private String city;
     private String state;
+    private List<Contact> contacts;
 
     public Builder setId(Long id) {
       this.id = id;
@@ -153,6 +156,11 @@ public class Person {
 
     public Builder setState(String state) {
       this.state = state;
+      return this;
+    }
+
+    public Builder setContacts(List<Contact> contacts) {
+      this.contacts = contacts;
       return this;
     }
 
