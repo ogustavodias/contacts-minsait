@@ -1,7 +1,6 @@
 package br.com.minsait.jp.contacts_app.services;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
