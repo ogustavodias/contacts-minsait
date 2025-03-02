@@ -1,8 +1,8 @@
-# Contacts App
+# Contacts App V2
 
 ## Descrição
 
-O Contacts App é uma aplicação para gerenciar Pessoas e seus respectivos Contatos. Ele permite adicionar, editar, remover e visualizar Pessoas e seus Contatos de maneira fácil e eficiente.
+Nesta versão do projeto, houve simplificação da lógica para integração com o front, utilizando apenas os endpoints de Person.
 
 ## Pré-requisitos
 
@@ -11,6 +11,7 @@ Antes de instalar e rodar o projeto, certifique-se de que você possui:
 - **Java 17+** instalado ([Baixar aqui](https://adoptium.net/))
 - **Maven 3.8+** instalado ([Baixar aqui](https://maven.apache.org/download.cgi))
 - **Git** instalado para clonar o repositório ([Baixar aqui](https://git-scm.com/))
+- **Mysql** instalado ([Baixar aqui](https://git-scm.com/)) e com o database 'persons_with_contacts' criado.
 
 ## Instalação
 
@@ -29,6 +30,7 @@ Para instalar e rodar o projeto localmente, siga os passos abaixo:
    ```
 
 3. Instale as dependências:
+
    ```bash
    mvn clean install
    ```
@@ -53,37 +55,20 @@ Exemplos de portas:
 ## Endpoints da API
 
 ### Persons:
+
 - **Criar Pessoa:** `POST /api/persons`
 - **Obter Pessoa por ID:** `GET /api/persons/{id}`
-- **Obter Pessoa por ID para mala direta:** `GET /api/persons/directmail/{id}`
 - **Listar todas as Pessoas:** `GET /api/persons`
 - **Atualizar Pessoa por ID:** `PATCH /api/persons/{id}`
 - **Deletar Pessoa por ID:** `DELETE /api/persons/{id}`
-
-### Contacts:
-- **Adicionar um novo Contato a uma Pessoa:** `POST /api/contacts`
-- **Obter Contato por ID:** `GET /api/contacts/{id}`
-- **Listar todos os Contatos de uma Pessoa:** `GET /api/contacts/person/{personId}`
-- **Atualizar Contato por ID :** `PATCH /api/contacts/{id}`
-- **Deletar Contato por ID:** `DELETE /api/contacts/{id}`
 
 📌 **Documentação completa:** [`http://localhost:8081/swagger-ui.html`](http://localhost:8081/swagger-ui.html)
 
 ## Banco de dados
 
-Essa aplicação faz uso do **H2 database**, para persistência em memória.
+Essa versão da aplicação faz uso do **Mysql**, para persistência dos dados.
 
-Acesse o console do banco via navegador:  
-📌 [`http://localhost:8081/h2-console/`](http://localhost:8081/h2-console/)
-
-Use as credenciais:
-
-- **Driver Class:** h2.Driver
-- **JDBC URL:** jdbc:h2:mem:app-contacts
-- **User Name:** sa
-- **Password:**
-
-P.S: Password em branco.
+Configurar o banco com o usuário 'root' e senha 'ha159357', conforme definição no application.properties. Se preferir, poderá alterar no application.properties as configurações de usuário e senha.
 
 ## Testes Unitários
 
