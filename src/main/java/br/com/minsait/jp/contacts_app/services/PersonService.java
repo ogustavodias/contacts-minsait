@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.minsait.jp.contacts_app.dto.ContactInsertDTO;
 import br.com.minsait.jp.contacts_app.dto.ContactUpdateDTO;
-import br.com.minsait.jp.contacts_app.dto.PersonDirectMailDTO;
 import br.com.minsait.jp.contacts_app.dto.PersonInsertDTO;
 import br.com.minsait.jp.contacts_app.dto.PersonUpdateDTO;
 import br.com.minsait.jp.contacts_app.models.Contact;
@@ -61,12 +60,6 @@ public class PersonService {
     logger.info("Searching person with id {}", id);
     return repository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Pessoa de id " + id + " não encontrada."));
-  }
-
-  public PersonDirectMailDTO getPersonDirectMailById(Long id) {
-    Person person = this.getPersonById(id);
-    logger.info("Getting direct mail for person with id {}", id);
-    return new PersonDirectMailDTO(person);
   }
 
   public List<Person> getAllPersons() {

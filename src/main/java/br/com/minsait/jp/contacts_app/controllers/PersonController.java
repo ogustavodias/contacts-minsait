@@ -3,7 +3,6 @@ package br.com.minsait.jp.contacts_app.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.minsait.jp.contacts_app.dto.ApiResponseDTO;
-import br.com.minsait.jp.contacts_app.dto.PersonDirectMailDTO;
 import br.com.minsait.jp.contacts_app.dto.PersonInsertDTO;
 import br.com.minsait.jp.contacts_app.dto.PersonUpdateDTO;
 import br.com.minsait.jp.contacts_app.models.Person;
@@ -58,18 +57,6 @@ public class PersonController {
     ApiResponseDTO<Person> response = ApiResponseDTO.success("Pessoa obtida com sucesso.", person);
 
     logger.info("Person obtained successfully: {}", person);
-    return ResponseEntity.status(HttpStatus.OK).body(response);
-  }
-
-  @Operation(summary = "Obter Pessoa por ID para mala direta", description = "Busca pelo ID da Pessoa no banco de dados e retorna uma Mala Direta com alguns dos dados da Pessoa")
-  @GetMapping("directmail/{id}")
-  public ResponseEntity<ApiResponseDTO<PersonDirectMailDTO>> getPersonDirectMailById(@PathVariable Long id) {
-    PersonDirectMailDTO directMail = service.getPersonDirectMailById(id);
-    ApiResponseDTO<PersonDirectMailDTO> response = ApiResponseDTO.success(
-        "Mala direta obtida com sucesso.",
-        directMail);
-
-    logger.info("Direct Mail obtained successfully: {}", directMail);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
