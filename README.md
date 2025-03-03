@@ -11,7 +11,7 @@ Antes de instalar e rodar o projeto, certifique-se de que você possui:
 - **Java 17+** instalado ([Baixar aqui](https://adoptium.net/))
 - **Maven 3.8+** instalado ([Baixar aqui](https://maven.apache.org/download.cgi))
 - **Git** instalado para clonar o repositório ([Baixar aqui](https://git-scm.com/))
-- **Mysql** instalado ([Baixar aqui](https://git-scm.com/)) e com o database 'persons_with_contacts' criado.
+- **Mysql** instalado ([Baixar aqui](https://dev.mysql.com/downloads/installer/)) e com o database 'persons_with_contacts' criado.
 
 ## Instalação
 
@@ -37,7 +37,17 @@ Para instalar e rodar o projeto localmente, siga os passos abaixo:
 
 ## Uso
 
-Para iniciar a aplicação, execute o comando:
+Para iniciar a aplicação:
+
+1. Primeiro crie uma base de dados no mysql com o nome persons_with_contacts:
+
+```bash
+CREATE DATABASE persons_with_contacts;
+```
+
+2. Importante configurar o banco com o usuário 'root' e senha 'ha159357', conforme definição no application.properties. Se preferir, poderá alterar no application.properties as configurações de usuário e senha.
+
+3.execute o comando:
 
 ```bash
 mvnw spring-boot:run
@@ -67,8 +77,6 @@ Exemplos de portas:
 ## Banco de dados
 
 Essa versão da aplicação faz uso do **Mysql**, para persistência dos dados.
-
-Configurar o banco com o usuário 'root' e senha 'ha159357', conforme definição no application.properties. Se preferir, poderá alterar no application.properties as configurações de usuário e senha.
 
 ## Testes Unitários
 
